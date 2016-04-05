@@ -1484,154 +1484,6 @@ void drawPlayer(int not_black){
 	    glScalef(0.85f, 0.1f, 2.0f);
 	    glutSolidCube(1.0f);
 	    glPopMatrix();
-		//Body
-		// drawBody_Player();
-		// glPushMatrix();
-		// 	glTranslatef(0, 0, -0.75);
-		// 	drawCube(0.9, 0.1, 0.4);
-		// glPopMatrix();
-		
-		// //Head
-		// glPushMatrix();
-		// 	glTranslatef(0.0, 0.0, 0.1);
-		// 	glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_TURRET), 0, 1, 0);
-		// 	drawHead_Player();
-			
-		// 	//hatch
-		// 	glPushMatrix();
-		// 		glTranslatef(0.23, 0.25, -0.12);
-		// 		glRotatef(90, 0, 0, 1);
-		// 		drawcy(0.2, 0.15, 0.15, 12);
-				
-		// 		glTranslatef(0, 0.45, 0);
-		// 		drawcy(0.2, 0.15, 0.15, 12);
-		// 	glPopMatrix();
-			
-		// glPopMatrix();
-		
-		//Right side
-		// glPushMatrix();
-		// 	//Right track
-		// 	glTranslatef(0.5, -0.125, 0);
-		// 	if(not_black){
-		// 		glColor3f(0.5, 0.5, 0.5);
-		// 	}
-		// 	drawTrack_Player();
-			
-		// 	//Right fender
-		// 	glTranslatef(0, 0.05, 0);
-		// 	if(not_black){
-		// 		glColor3f(0.0078125, 0.3671875, 0.12890625);
-		// 	}
-		// 	drawFender_Player();
-			
-		// 	//Right wheels
-		// 	glPushMatrix();
-		// 		glTranslatef(0.0, -0.18, 1.34);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), -1, 0, 0);
-		// 			drawcy(0.10, 0.10, 0.22, 12);
-		// 		glPopMatrix();
-				
-		// 		glTranslatef(0, -0.05, -0.3);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-		// 			drawcy(0.17, 0.17, 0.22, 12);
-		// 		glPopMatrix();
-				
-		// 		glTranslatef(0, 0, -0.5);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-		// 			drawcy(0.17, 0.17, 0.22, 12);
-		// 		glPopMatrix();
-				
-		// 		glTranslatef(0, 0, -0.38);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-		// 			drawcy(0.17, 0.17, 0.22, 12);
-		// 		glPopMatrix();
-				
-		// 		glTranslatef(0, 0, -0.38);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-		// 			drawcy(0.17, 0.17, 0.22, 12);
-		// 		glPopMatrix();
-				
-		// 		glTranslatef(0, 0, -0.38);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-		// 			drawcy(0.17, 0.17, 0.22, 12);
-		// 		glPopMatrix();
-				
-		// 		glTranslatef(0, 0.05, -0.3);
-		// 		glPushMatrix();
-		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-		// 			drawcy(0.10, 0.10, 0.22, 12);
-		// 		glPopMatrix();
-		// 	glPopMatrix();
-		// glPopMatrix();
-		
-		//Left track
-		// glPushMatrix();
-		// 	glTranslatef(-0.76, -0.125, 0);
-		// 	if(not_black){
-		// 		glColor3f(0.5, 0.5, 0.5);
-		// 	}
-		// 	drawTrack_Player();
-			
-		// 	//Left fender
-		// 	glTranslatef(0, 0.05, 0);
-		// 	if(not_black){
-		// 		glColor3f(0.0078125, 0.3671875, 0.12890625);
-		// 	}
-		// 	drawFender_Player();
-			
-		// 	//Left wheels
-		// 	// glPushMatrix();
-		// 	// 	glTranslatef(0.03, 0.0, 0.0);
-		// 	// 	glTranslatef(0.0, -0.18, 1.34);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.10, 0.10, 0.22, 12);
-		// 	// 	glPopMatrix();
-				
-		// 	// 	glTranslatef(0, -0.05, -0.3);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
-		// 	// 	glPopMatrix();
-				
-		// 	// 	glTranslatef(0, 0, -0.5);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
-		// 	// 	glPopMatrix();
-				
-		// 	// 	glTranslatef(0, 0, -0.38);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
-		// 	// 	glPopMatrix();
-				
-		// 	// 	glTranslatef(0, 0, -0.38);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
-		// 	// 	glPopMatrix();
-				
-		// 	// 	glTranslatef(0, 0, -0.38);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
-		// 	// 	glPopMatrix();
-				
-		// 	// 	glTranslatef(0, 0.05, -0.3);
-		// 	// 	glPushMatrix();
-		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-		// 	// 		drawcy(0.10, 0.10, 0.22, 12);
-		// 	// 	glPopMatrix();
-		// 	// glPopMatrix();
-		// glPopMatrix();
 	glPopMatrix();
 }
 void Cube() //正方体
@@ -1719,6 +1571,7 @@ void drawE1(int not_black){
 	glTranslatef(0, 0, 0.5);
 	glScalef(0.1, 0.05, 1);
 	Cube(); //螺旋桨
+
 	glPopMatrix();
 
 	glTranslatef(0, -0.1, 0);
@@ -1748,7 +1601,7 @@ void drawE1(int not_black){
 void drawE2(int not_black){
 	glPushMatrix();
 		if(not_black){
-			glColor3f(0.6, 0.6, 0.65);
+			glColor3f(0.0048125, 0.6671875, 0.82890625);
 		}
 		glTranslatef(joint_ui_data->getDOF(Keyframe::E2_TRANSLATE_X),
 				joint_ui_data->getDOF(Keyframe::E2_TRANSLATE_Y),
@@ -1756,125 +1609,47 @@ void drawE2(int not_black){
 		glRotatef(joint_ui_data->getDOF(Keyframe::E2_ROTATE_Y), 0.0, 1.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::E2_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::E2_ROTATE_Z), 0.0, 0.0, 1.0);
-		//Body
-		drawBody_E();
-		
-		//Head
-		glPushMatrix();
-			glRotatef(joint_ui_data->getDOF(Keyframe::E2_TURRET), 0, 1, 0);
-			drawHead_E();
-			
-			//hatch
-			glPushMatrix();
-				glTranslatef(0.18, 0.25, -0.12);
-				glRotatef(90, 0, 0, 1);
-				drawcy(0.2, 0.18, 0.15, 12);
-			glPopMatrix();
-			
-			//Gun
-			glPushMatrix();
-				glTranslatef(0.0, 0.175, 0.4);
-				glRotatef(joint_ui_data->getDOF(Keyframe::E2_GUN), 1, 0, 0);
-				glRotatef(-90, 0, 1, 0);
-				drawcy(0.1, 0.05, 0.3, 12);
-				drawcy(0.03, 0.03, 2.0, 12);
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Right side
-		glPushMatrix();
-			//Right track
-			glTranslatef(0.5, -0.25, -0.25);
-			
-			//Right fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_E();
-			
-			//Right wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.3, 0.3, 0.3);
-				}
-				glTranslatef(0.0, 0.0, 1.34);
-				glTranslatef(0, -0.27, -0.2);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.62);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Left track
-		glPushMatrix();
-			glTranslatef(-0.76, -0.25, -0.25);
-			
-			//Left fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_E();
-			
-			//Left wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.3, 0.3, 0.3);
-				}
-				glTranslatef(0.02, 0.0, 1.34);
-				glTranslatef(0, -0.27, -0.2);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.62);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E2_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
+		// Fuselage
+	    glPushMatrix();
+	    glTranslatef(-0.5f, 0, 0);
+	    glScalef(2.0f, 0.4f, 0.5f); // x for width, y for thickness, z for length
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Rear Fuselage
+	    glPushMatrix();
+	    glTranslatef(1.0f, 0.15f, 0);
+	    glScalef(2.75f, 0.25f, 0.5f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Wings
+	    glPushMatrix();
+	    glTranslatef(0, 0.3f, 0);
+	    glScalef(0.5f, 0.07f, 8.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Rudder
+	    glPushMatrix();
+	    glTranslatef(2.0f, 0.775f, 0);
+	    glScalef(0.375f, 1.05f, 0.02f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Tail-plane
+	    glPushMatrix();
+	    glTranslatef(1.9f, 0, 0);
+	    glScalef(0.275f, 0.1f, 2.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 	glPopMatrix();
 }
 
 void drawE3(int not_black){
 	glPushMatrix();
 		if(not_black){
-			glColor3f(0.6, 0.6, 0.65);
+			glColor3f(0.0148125, 0.1671875, 0.42890625);
 		}
 		glTranslatef(joint_ui_data->getDOF(Keyframe::E3_TRANSLATE_X),
 				joint_ui_data->getDOF(Keyframe::E3_TRANSLATE_Y),
@@ -1882,118 +1657,40 @@ void drawE3(int not_black){
 		glRotatef(joint_ui_data->getDOF(Keyframe::E3_ROTATE_Y), 0.0, 1.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::E3_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::E3_ROTATE_Z), 0.0, 0.0, 1.0);
-		//Body
-		drawBody_E();
-		
-		//Head
-		glPushMatrix();
-			glRotatef(joint_ui_data->getDOF(Keyframe::E3_TURRET), 0, 1, 0);
-			drawHead_E();
-			
-			//hatch
-			glPushMatrix();
-				glTranslatef(0.18, 0.25, -0.12);
-				glRotatef(90, 0, 0, 1);
-				drawcy(0.2, 0.18, 0.15, 12);
-			glPopMatrix();
-			
-			//Gun
-			glPushMatrix();
-				glTranslatef(0.0, 0.175, 0.4);
-				glRotatef(joint_ui_data->getDOF(Keyframe::E3_GUN), 1, 0, 0);
-				glRotatef(-90, 0, 1, 0);
-				drawcy(0.1, 0.05, 0.3, 12);
-				drawcy(0.03, 0.03, 2.0, 12);
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Right side
-		glPushMatrix();
-			//Right track
-			glTranslatef(0.5, -0.25, -0.25);
-			
-			//Right fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_E();
-			
-			//Right wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.3, 0.3, 0.3);
-				}
-				glTranslatef(0.0, 0.0, 1.34);
-				glTranslatef(0, -0.27, -0.2);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.62);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Left track
-		glPushMatrix();
-			glTranslatef(-0.76, -0.25, -0.25);
-			
-			//Left fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_E();
-			
-			//Left wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.3, 0.3, 0.3);
-				}
-				glTranslatef(0.02, 0.0, 1.34);
-				glTranslatef(0, -0.27, -0.2);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.62);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E3_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
+		// Fuselage
+	    glPushMatrix();
+	    glTranslatef(-0.5f, 0, 0);
+	    glScalef(2.0f, 0.4f, 0.5f); // x for width, y for thickness, z for length
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Rear Fuselage
+	    glPushMatrix();
+	    glTranslatef(1.0f, 0.15f, 0);
+	    glScalef(2.75f, 0.25f, 0.5f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Wings
+	    glPushMatrix();
+	    glTranslatef(0, 0.3f, 0);
+	    glScalef(0.5f, 0.07f, 8.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Rudder
+	    glPushMatrix();
+	    glTranslatef(2.0f, 0.775f, 0);
+	    glScalef(0.375f, 1.05f, 0.02f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Tail-plane
+	    glPushMatrix();
+	    glTranslatef(1.9f, 0, 0);
+	    glScalef(0.275f, 0.1f, 2.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 	glPopMatrix();
 }
 
