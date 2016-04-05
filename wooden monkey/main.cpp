@@ -1634,131 +1634,115 @@ void drawPlayer(int not_black){
 		// glPopMatrix();
 	glPopMatrix();
 }
+void Cube() //正方体
+{
+	glBegin(GL_QUAD_STRIP);//填充凸多边形
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glVertex3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(0.0f, 1.0f, -1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glEnd();
+	glBegin(GL_QUAD_STRIP);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(1.0f, 0.0f, -1.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, -1.0f);
+	glVertex3f(1.0f, 1.0f, -1.0f);
+	glEnd();
+}
+void Circle() //圆面
+{
+	glBegin(GL_TRIANGLE_FAN);//扇形连续填充三角形串
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	int i = 0;
+	for (i = 0; i <= 375; i += 15)
+	{
+		float p = i * 3.14 / 180;
+		glVertex3f(sin(p), cos(p), 0.0f);
+	}
+	glEnd();
+}
 
+void Cylinder() //圆柱
+{
+	glBegin(GL_QUAD_STRIP);//连续填充四边形串
+	int i = 0;
+	for (i = 0; i <= 375; i += 15)
+	{
+		float p = i * 3.14 / 180;
+		glVertex3f(sin(p), cos(p), 1.0f);
+		glVertex3f(sin(p), cos(p), 0.0f);
+	}
+	glEnd();
+	Circle();
+	glTranslatef(0, 0, 1);
+	Circle();
+}
+void Cone() //圆锥
+{
+	glBegin(GL_QUAD_STRIP);//连续填充四边形串
+	int i = 0;
+	for (i = 0; i <= 390; i += 15)
+	{
+		float p = i * 3.14 / 180;
+		glVertex3f(0, 0, 1.0f);
+		glVertex3f(sin(p), cos(p), 0.0f);
+	}
+	glEnd();
+	Circle();
+}
 void drawE1(int not_black){
+	float x=4,y=4,z=4;
+	static float i = 0, f = 0;
+	i += 0.1;
+	f += 0.01;
+	if (i > 360)
+		i = 0;
+	if (f > 360)
+		f = 0;
 	glPushMatrix();
-		if(not_black){
-			glColor3f(0.6, 0.6, 0.65);
-		}
-		glTranslatef(joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_X),
-				joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_Y),
-				joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_Z));
-		glRotatef(joint_ui_data->getDOF(Keyframe::E1_ROTATE_Y), 0.0, 1.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::E1_ROTATE_X), 1.0, 0.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::E1_ROTATE_Z), 0.0, 0.0, 1.0);
-		//Body
-		drawBody_E();
-		
-		//Head
-		glPushMatrix();
-			glRotatef(joint_ui_data->getDOF(Keyframe::E1_TURRET), 0, 1, 0);
-			drawHead_E();
-			
-			//hatch
-			glPushMatrix();
-				glTranslatef(0.18, 0.25, -0.12);
-				glRotatef(90, 0, 0, 1);
-				drawcy(0.2, 0.18, 0.15, 12);
-			glPopMatrix();
-			
-			//Gun
-			glPushMatrix();
-				glTranslatef(0.0, 0.175, 0.4);
-				glRotatef(joint_ui_data->getDOF(Keyframe::E1_GUN), 1, 0, 0);
-				glRotatef(-90, 0, 1, 0);
-				drawcy(0.1, 0.05, 0.3, 12);
-				drawcy(0.03, 0.03, 2.0, 12);
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Right side
-		glPushMatrix();
-			//Right track
-			glTranslatef(0.5, -0.25, -0.25);
-			
-			//Right fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_E();
-			
-			//Right wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.3, 0.3, 0.3);
-				}
-				glTranslatef(0.0, 0.0, 1.34);
-				glTranslatef(0, -0.27, -0.2);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.62);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_R), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Left track
-		glPushMatrix();
-			glTranslatef(-0.76, -0.25, -0.25);
-			
-			//Left fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_E();
-			
-			//Left wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.3, 0.3, 0.3);
-				}
-				glTranslatef(0.02, 0.0, 1.34);
-				glTranslatef(0, -0.27, -0.2);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.62);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.52);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::E1_WHEELS_L), 1, 0, 0);
-					drawcy(0.25, 0.25, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
+	glTranslatef(x, y, z);
+	glRotatef(f, 1, 1, 1);
+
+	glPushMatrix();
+	glColor3f(0.5, 1.5, 0.5);
+	glRotatef(i, 0, 1, 0);
+	glTranslatef(0, 0, 0.5);
+	glScalef(0.1, 0.05, 1);
+	Cube(); //螺旋桨
 	glPopMatrix();
+
+	glTranslatef(0, -0.1, 0);
+	glScalef(0.1, 0.1, 0.1);
+	Cube();
+	glScalef(10, 10, 10);
+
+	glColor3f(1, 0, 1);
+	glTranslatef(0.04, -0.05, -0.9);
+	glScalef(0.1, 0.1, 1.5);
+	Cylinder();
+	glColor3f(0, 1, 0);
+	glScalef(1, 1, 0.2);
+	Cone();
+	glColor3f(0, 1, 1);
+	glTranslatef(0, 0.7, -4.5);
+	glScalef(0.2, 2, 1);
+	Cube();
+
+	glTranslatef(-13, 0.3, 0);
+	glScalef(27, 0.1, 1);
+	Cube();
+
+	glPopMatrix();	
 }
 
 void drawE2(int not_black){
@@ -2198,6 +2182,214 @@ void drawTD(int not_black){
 		glPopMatrix();
 	glPopMatrix();
 }
+float rspeed_propeller=0.0;
+float rspeed_airplane_flip=0.0;
+void DrawBomb(){
+    
+    glPushMatrix();
+    
+    glColor3f(1, 1, 1);
+    
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 4.2);
+    glColor3f(0.4, 0.4, 0.4);
+    glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 8.5);
+    glColor3f(1, 0, 0);
+    // glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0, 0.5, 0);
+    glTranslatef(0, 0, 2);
+    //glutSolidSphere(1.6, 20, 20);
+    
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(1.2, 0.15,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(0.15, 1.2,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+    
+    
+}
+void DrawWingCircle(){
+    //circle blue
+    glPushMatrix();
+    glColor3f(0.32, 0.34, 0.78);
+    //glColor3f(0.3, 0.3, 1);
+    glScaled(0.7, 0.01, 0.7);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    //circle red
+    glPushMatrix();
+    glTranslatef(0, 0.05, 0);
+    glColor3f(0, 1, 0);
+    glScaled(0.7, 0.01, 0.7);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    
+}
+void DrawCylinder(){
+    glColor3f(0, 0.5, 0);
+    glPushMatrix();
+    GLUquadricObj *quadratic;
+    quadratic = gluNewQuadric();
+    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+    gluCylinder(quadratic,0.7f,0.7f,3.6f,32,32);
+    glPopMatrix();
+}
+void DrawBody(){
+    glPushMatrix();
+    
+    glPushMatrix();
+    GLUquadricObj *quadratic;
+    quadratic = gluNewQuadric();
+    //glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glTranslatef(0, 0.3, -7);
+    glColor3f(0.32, 0.34, 0.38);
+    // glColor3f(0.32, 0.34, 0.145);
+    glScaled(0.85, 0.75, 3.5);
+    gluCylinder(quadratic,2.1f,2.3f,5.0f,32,32);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0.1, 10.2);
+    glScaled(0.95, 0.85, 1.8);
+    glutSolidSphere(2.1, 20, 20);
+    glPopMatrix();
+    //tzami
+    glPushMatrix();
+    glTranslatef(0, 0.6, 9.8);
+    glColor4f(0, 1, 1,0.5);
+    glScaled(0.95, 0.85, 1.8);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0.32, 0.34, 0.145);
+    glTranslatef(0, 0.3, -7.2);
+    glutSolidSphere(1.6, 20, 20);
+    //ftero
+    glPushMatrix();
+    
+    glColor3f(0, 0.8, 0);
+    glTranslatef(0, 0 , 1);
+    glScaled(1.7, 0.15,0.7);
+    glutSolidSphere(3.5,20,20);
+    glPopMatrix();
+    //ftero
+    glPushMatrix();
+    
+    glColor3f(0, 0.8, 0);
+    glTranslatef(0, 2 , 1);
+    glScaled(0.15, 1,0.4);
+    glutSolidSphere(3.5,20,20);
+    glPopMatrix();
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+void DrawWing(){
+    
+    glPushMatrix();
+    
+    glColor3f(0.32, 0.34, 0.38);
+    glScaled(14, 0.45, 2.5);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    
+    /*glPushMatrix();
+     
+     glColor4f(0, 1, 0,0.2);
+     glScaled(14, 0.45, 2.5);
+     glutSolidSphere(1.1, 20, 20);
+     glPopMatrix();
+     */
+    glPushMatrix();
+    
+    glTranslatef(-8, 0.45, 0);
+    DrawWingCircle();
+    
+    glTranslatef(16, 0, 0);
+    DrawWingCircle();
+    glPopMatrix();
+    
+    
+}
+void DrawPropeller(){
+    
+    glPushMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, -1);
+    glColor3f(0.5,0.5, 1);
+    glScaled(0.5, 0.5,0.5);
+    glutSolidCone(1, 2, 20, 20);
+    glPopMatrix();
+    
+    glColor3f(1, 1, 1);
+    
+    glPushMatrix();
+    glScaled(0.5, 0.5,0.5);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 1, 0);
+    glScaled(0.25, 0.25,0.25);
+    glScaled(1, 4, 	1);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, -1, 0);
+    glScaled(0.25, 0.25,0.25);
+    glScaled(1, 4, 	1);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(1, 0, 0);
+    glScaled(0.25, 0.25,0.25);
+    glScaled(4, 1, 	1);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(-1, 0, 0);
+    glScaled(0.25, 0.25,0.25);
+    glScaled(4, 1, 	1);
+    glutSolidSphere(1, 20, 20);
+    glPopMatrix();
+    glPopMatrix();
+    
+}
 
 void drawEnemyPlane(int not_black){
 	glPushMatrix();
@@ -2210,172 +2402,111 @@ void drawEnemyPlane(int not_black){
 		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_Y), 0.0, 1.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_Z), 0.0, 0.0, 1.0);
-		//Body
-		drawBody_EnemyPlane();
 		
-		//Head
-		glPushMatrix();
-			glTranslatef(0.0, 0.0, -0.5);
-			glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_TURRET), 0, 1, 0);
-			drawHead_EnemyPlane();
-			
-			//Gun
-			glPushMatrix();
-				drawGunshild_EnemyPlane();
-				glTranslatef(0.0, 0.3, 0.6);
-				
-				glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_GUN), 1, 0, 0);
-				glRotatef(-90, 0, 1, 0);
-				glTranslatef(0.52, 0.05, 0);
-				glTranslatef(-0.5, 0, 0);
-				drawcy(0.07, 0.07, 2.2, 12);
-				glTranslatef(2.2, 0, 0);
-				
-				drawcy(0.1, 0.1, 0.4, 12);
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Right side
-		glPushMatrix();
-			//Right track
-			glTranslatef(0.35, -0.6, -0.1);
-			if(not_black){
-				glColor3f(0.5, 0.5, 0.5);
-			}
-			drawTrack_EnemyPlane();
-			
-			//Right fender
-			glTranslatef(0, 0.10, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_EnemyPlane();
-			
-			//Right wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.6, 0.6, 0.65);
-				}
-				glTranslatef(0.0, -0.2, 1.8);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, -0.06, -0.4);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0.1, -0.4);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Left track
-		glPushMatrix();
-			glTranslatef(-0.6, -0.6, -0.1);
-			if(not_black){
-				glColor3f(0.5, 0.5, 0.5);
-			}
-			drawTrack_EnemyPlane();
-			
-			//Left fender
-			glTranslatef(0, 0.10, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_EnemyPlane();
-			
-			//Left wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.6, 0.6, 0.65);
-				}
-				glTranslatef(0.0, -0.2, 1.8);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, -0.06, -0.4);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.47);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.2, 0.2, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0.1, -0.4);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
-	glPopMatrix();
+    //Planes Reflection
+    GLfloat lightColor2[] = {0.3, 0.3, 0.3, 1.0f}; //Color (0.5, 0.5, 0.5)
+    GLfloat lightPos2[] = {0, -4, 0, 1.0f}; //Positioned at (0, 0, 6)
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor2);
+    glLightfv(GL_LIGHT2, GL_POSITION, lightPos2);
+    
+    glPushMatrix();
+
+    glColor3f(0.32, 0.34, 0.145);
+    
+    //Body
+    glPushMatrix();
+    glTranslatef(0, -0.7, -5);
+    DrawBody();
+    glPopMatrix();
+    
+    //Wings
+    glPushMatrix();
+    DrawWing();
+    glPopMatrix();
+    
+    
+    //Left Bomb
+    glPushMatrix();
+    glScaled(0.75, 0.75, 0.75);
+    glTranslatef(-8, -3.5, -5);
+    
+    glPushMatrix();
+    glTranslatef(0, 4, 4.5);
+    DrawCylinder();
+    glPopMatrix();
+    
+    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+    DrawBomb();
+    glPopMatrix();
+    
+    //Left 2 Bomb
+    glPushMatrix();
+    glScaled(0.65, 0.65, 0.65);
+    glTranslatef(-16, -3.7, -5);
+    glPushMatrix();
+    glTranslatef(0, 4, 4.5);
+    DrawCylinder();
+    glPopMatrix();
+    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+    DrawBomb();
+    glPopMatrix();
+    //Right Bomb
+    glPushMatrix();
+    glScaled(0.75, 0.75, 0.75);
+    glTranslatef(8, -3.5, -5);
+    
+    glPushMatrix();
+    glTranslatef(0, 4, 4.5);
+    DrawCylinder();
+    glPopMatrix();
+    
+    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+    DrawBomb();
+    glPopMatrix();
+    //Right 2 Bomb
+    glPushMatrix();
+    glScaled(0.65, 0.65, 0.65);
+    glTranslatef(16, -3.7, -5);
+    glPushMatrix();
+    glTranslatef(0, 4, 4.5);
+    DrawCylinder();
+    glPopMatrix();
+    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+    DrawBomb();
+    glPopMatrix();
+    //Right Propeller
+    glPushMatrix();
+    glTranslatef(-6, 0, 3.0);
+    glRotatef(rspeed_propeller+45, 0, 0, 1);
+    glScaled(1.25, 1.25, 0.75);
+    DrawPropeller();
+    glPopMatrix();
+    
+    //Right 2 Propeller
+    glPushMatrix();
+    glTranslatef(-10, 0, 2.6);
+    glRotatef(rspeed_propeller, 0, 0, 1);
+    glScaled(0.75, 0.75, 0.75);
+    DrawPropeller();
+    glPopMatrix();
+    
+    //Left Propeller
+    glPushMatrix();
+    glTranslatef(6, 0, 3.0);
+    glRotatef(rspeed_propeller, 0, 0, 1);
+    glScaled(1.25, 1.25,  0.75);
+    DrawPropeller();
+    glPopMatrix();
+    
+    //Left Propeller
+    glPushMatrix();
+    glTranslatef(10, 0, 2.6);
+    glRotatef(rspeed_propeller+45, 0, 0, 1);
+    glScaled(0.75, 0.75, 0.75);
+    DrawPropeller();
+    glPopMatrix();
+    
+    glPopMatrix();
 }
 
 void drawSpark(float size){
