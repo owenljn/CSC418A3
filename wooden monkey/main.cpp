@@ -249,7 +249,7 @@ void drawE1(int not_black);
 void drawE2(int not_black);
 void drawE3(int not_black);
 void drawTD(int not_black);
-void drawBOSS(int not_black);
+void drawEnemyPlane(int not_black);
 
 void drawHead_Player();
 void drawBody_Player();
@@ -267,11 +267,11 @@ void drawTrack_TD();
 void drawFender_TD();
 void drawGunshild_TD();
 
-void drawHead_BOSS();
-void drawBody_BOSS();
-void drawTrack_BOSS();
-void drawFender_BOSS();
-void drawGunshild_BOSS();
+void drawHead_EnemyPlane();
+void drawBody_EnemyPlane();
+void drawTrack_EnemyPlane();
+void drawFender_EnemyPlane();
+void drawGunshild_EnemyPlane();
 
 // Image functions
 void writeFrame(char* filename, bool pgm, bool frontBuffer);
@@ -884,46 +884,46 @@ void initGlui()
 	glui_spinner->set_speed(SPINNER_SPEED);
 
 	
-	// Create controls to specify BOSS rotation
-	glui_panel = glui_joints->add_panel("BOSS");
+	// Create controls to specify EnemyPlane rotation
+	glui_panel = glui_joints->add_panel("Enemy Fighter");
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_TRANSLATE_X));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_TRANSLATE_X));
 	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_TRANSLATE_Y));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_TRANSLATE_Y));
 	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_TRANSLATE_Z));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_TRANSLATE_Z));
 	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_ROTATE_X));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_ROTATE_X));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_ROTATE_Y));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_ROTATE_Y));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_ROTATE_Z));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_ROTATE_Z));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_TURRET));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_TURRET));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_GUN));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_GUN));
 	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_WHEELS_R));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_WHEELS_R));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::BOSS_WHEELS_L));
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_WHEELS_L));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
@@ -1362,14 +1362,14 @@ void drawAll(){
 		glPushMatrix();
 			glColor3f(1,1,1);
 			glTranslatef(-32, -0.49, -32);
-			map.Render("ground.tga");
+			map.Render("air.tga");
 		glPopMatrix();
 		//drawing stuff
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		
+
 		drawMap();
 		drawPlayer(1);
-		
+
 		glPushMatrix();
 			glTranslatef(0.0, 0.21, 0.0);
 			drawE1(1);
@@ -1378,7 +1378,7 @@ void drawAll(){
 			glTranslatef(0.0, -0.05, 0.0);
 			drawTD(1);
 			glTranslatef(0.0, 0.35, 0.0);
-			drawBOSS(1);
+			drawEnemyPlane(1);
 		glPopMatrix();
 		drawShell1();
 		drawShell2();
@@ -1423,48 +1423,19 @@ void drawAll(){
 			glTranslatef(0.0, -0.05, 0.0);
 			drawTD(0);
 			glTranslatef(0.0, 0.35, 0.0);
-			drawBOSS(0);
+			drawEnemyPlane(0);
 		glPopMatrix();
 }
 
 
 void drawMap(){
-	//Draw floor
+	//Draw air
 	glPushMatrix();
 		glTranslatef(0, -0.6, 0);
 		glPushMatrix();
 			glColor3f(5.5, 3, 1);
 			drawCube(MAP_SIZE1, 0.2, MAP_SIZE1);
 		glPopMatrix();
-		
-		// //Right Wall
-		// glPushMatrix();
-		// 	glColor3f(0.7, 0.4, 0.3);
-		// 	glTranslatef(MAP_SIZE1 / 2, WALL_SIZE / 2, 0);
-		// 	drawCube(WALL_SIZE, WALL_SIZE, MAP_SIZE1);
-		// glPopMatrix();
-		
-		// //Left Wall
-		// glPushMatrix();
-		// 	glColor3f(0.7, 0.4, 0.3);
-		// 	glTranslatef(-MAP_SIZE1 / 2, WALL_SIZE / 2, 0);
-		// 	drawCube(WALL_SIZE, WALL_SIZE, MAP_SIZE1);
-		// glPopMatrix();
-		
-		// //Back Wall
-		// glPushMatrix();
-		// 	glColor3f(0.7, 0.4, 0.3);
-		// 	glTranslatef(0, WALL_SIZE / 2, -MAP_SIZE1 / 2);
-		// 	drawCube(MAP_SIZE1, WALL_SIZE, WALL_SIZE);
-		// glPopMatrix();
-		
-		// //Front Wall
-		// glPushMatrix();
-		// 	glColor3f(0.7, 0.4, 0.3);
-		// 	glTranslatef(0, WALL_SIZE / 2, MAP_SIZE1 / 2);
-		// 	drawCube(MAP_SIZE1, WALL_SIZE, WALL_SIZE);
-		// glPopMatrix();
-		
 	glPopMatrix();
 }
 
@@ -2203,32 +2174,32 @@ void drawTD(int not_black){
 	glPopMatrix();
 }
 
-void drawBOSS(int not_black){
+void drawEnemyPlane(int not_black){
 	glPushMatrix();
 		if(not_black){
 			glColor3f(0.6, 0.6, 0.65);
 		}
-		glTranslatef(joint_ui_data->getDOF(Keyframe::BOSS_TRANSLATE_X),
-				joint_ui_data->getDOF(Keyframe::BOSS_TRANSLATE_Y),
-				joint_ui_data->getDOF(Keyframe::BOSS_TRANSLATE_Z));
-		glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_ROTATE_Y), 0.0, 1.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_ROTATE_X), 1.0, 0.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_ROTATE_Z), 0.0, 0.0, 1.0);
+		glTranslatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_TRANSLATE_X),
+				joint_ui_data->getDOF(Keyframe::EnemyPlane_TRANSLATE_Y),
+				joint_ui_data->getDOF(Keyframe::EnemyPlane_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_Z), 0.0, 0.0, 1.0);
 		//Body
-		drawBody_BOSS();
+		drawBody_EnemyPlane();
 		
 		//Head
 		glPushMatrix();
 			glTranslatef(0.0, 0.0, -0.5);
-			glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_TURRET), 0, 1, 0);
-			drawHead_BOSS();
+			glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_TURRET), 0, 1, 0);
+			drawHead_EnemyPlane();
 			
 			//Gun
 			glPushMatrix();
-				drawGunshild_BOSS();
+				drawGunshild_EnemyPlane();
 				glTranslatef(0.0, 0.3, 0.6);
 				
-				glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_GUN), 1, 0, 0);
+				glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_GUN), 1, 0, 0);
 				glRotatef(-90, 0, 1, 0);
 				glTranslatef(0.52, 0.05, 0);
 				glTranslatef(-0.5, 0, 0);
@@ -2246,14 +2217,14 @@ void drawBOSS(int not_black){
 			if(not_black){
 				glColor3f(0.5, 0.5, 0.5);
 			}
-			drawTrack_BOSS();
+			drawTrack_EnemyPlane();
 			
 			//Right fender
 			glTranslatef(0, 0.10, 0);
 			if(not_black){
 				glColor3f(0.6, 0.6, 0.65);
 			}
-			drawFender_BOSS();
+			drawFender_EnemyPlane();
 			
 			//Right wheels
 			glPushMatrix();
@@ -2262,49 +2233,49 @@ void drawBOSS(int not_black){
 				}
 				glTranslatef(0.0, -0.2, 1.8);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.1, 0.1, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, -0.06, -0.4);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0.1, -0.4);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_R), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_R), 1, 0, 0);
 					drawcy(0.1, 0.1, 0.22, 12);
 				glPopMatrix();
 			glPopMatrix();
@@ -2316,14 +2287,14 @@ void drawBOSS(int not_black){
 			if(not_black){
 				glColor3f(0.5, 0.5, 0.5);
 			}
-			drawTrack_BOSS();
+			drawTrack_EnemyPlane();
 			
 			//Left fender
 			glTranslatef(0, 0.10, 0);
 			if(not_black){
 				glColor3f(0.6, 0.6, 0.65);
 			}
-			drawFender_BOSS();
+			drawFender_EnemyPlane();
 			
 			//Left wheels
 			glPushMatrix();
@@ -2332,49 +2303,49 @@ void drawBOSS(int not_black){
 				}
 				glTranslatef(0.0, -0.2, 1.8);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.1, 0.1, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, -0.06, -0.4);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0, -0.47);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.2, 0.2, 0.22, 12);
 				glPopMatrix();
 				
 				glTranslatef(0, 0.1, -0.4);
 				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::BOSS_WHEELS_L), 1, 0, 0);
+					glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_WHEELS_L), 1, 0, 0);
 					drawcy(0.1, 0.1, 0.22, 12);
 				glPopMatrix();
 			glPopMatrix();
@@ -3215,8 +3186,8 @@ void drawTrack_TD(){
 	glPopMatrix();
 }
 
-// BOSS PART
-void drawBody_BOSS(){
+// EnemyPlane PART
+void drawBody_EnemyPlane(){
 	glBegin(GL_QUADS);
 		// draw front upper face
 		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
@@ -3287,7 +3258,7 @@ void drawBody_BOSS(){
 	glEnd();
 }
 
-void drawHead_BOSS(){
+void drawHead_EnemyPlane(){
 	glBegin(GL_QUADS);
 		// draw front upper face
 		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
@@ -3359,7 +3330,7 @@ void drawHead_BOSS(){
 	glEnd();
 }
 
-void drawFender_BOSS(){
+void drawFender_EnemyPlane(){
 	glPushMatrix();
 		glTranslatef(0.13, 0, 0.2);
 		drawCube(0.45, 0.02, 2.8);
@@ -3378,7 +3349,7 @@ void drawFender_BOSS(){
 	glPopMatrix();
 }
 
-void drawTrack_BOSS(){
+void drawTrack_EnemyPlane(){
 	glPushMatrix();
 		//Upside
 		glTranslatef(0.13, 0, 0.2);
@@ -3441,7 +3412,7 @@ void drawTrack_BOSS(){
 	glPopMatrix();
 }
 
-void drawGunshild_BOSS(){
+void drawGunshild_EnemyPlane(){
 	glBegin(GL_QUADS);
 		// draw front upper face
 		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
