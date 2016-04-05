@@ -1479,163 +1479,188 @@ void drawPlayer(int not_black){
 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_ROTATE_Y), 0.0, 1.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_ROTATE_Z), 0.0, 0.0, 1.0);
+	  // Fuselage
+	    glPushMatrix();
+	    glTranslatef(-0.5f, 0, 0);
+	    glScalef(2.0f, 0.8f, 1.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Rear Fuselage
+	    glPushMatrix();
+	    glTranslatef(1.0f, 0.15f, 0);
+	    glScalef(2.75f, 0.5f, 0.5f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Wings
+	    glPushMatrix();
+	    glTranslatef(0, 0.3f, 0);
+	    glScalef(0.8f, 0.1f, 6.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Rudder
+	    glPushMatrix();
+	    glTranslatef(2.0f, 0.775f, 0);
+	    glScalef(0.75f, 1.15f, 0.1f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
+
+	    // Tail-plane
+	    glPushMatrix();
+	    glTranslatef(1.9f, 0, 0);
+	    glScalef(0.85f, 0.1f, 2.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 		//Body
-		drawBody_Player();
-		glPushMatrix();
-			glTranslatef(0, 0, -0.75);
-			drawCube(0.9, 0.1, 0.4);
-		glPopMatrix();
+		// drawBody_Player();
+		// glPushMatrix();
+		// 	glTranslatef(0, 0, -0.75);
+		// 	drawCube(0.9, 0.1, 0.4);
+		// glPopMatrix();
 		
-		//Head
-		glPushMatrix();
-			glTranslatef(0.0, 0.0, 0.1);
-			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_TURRET), 0, 1, 0);
-			drawHead_Player();
+		// //Head
+		// glPushMatrix();
+		// 	glTranslatef(0.0, 0.0, 0.1);
+		// 	glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_TURRET), 0, 1, 0);
+		// 	drawHead_Player();
 			
-			//hatch
-			glPushMatrix();
-				glTranslatef(0.23, 0.25, -0.12);
-				glRotatef(90, 0, 0, 1);
-				drawcy(0.2, 0.15, 0.15, 12);
+		// 	//hatch
+		// 	glPushMatrix();
+		// 		glTranslatef(0.23, 0.25, -0.12);
+		// 		glRotatef(90, 0, 0, 1);
+		// 		drawcy(0.2, 0.15, 0.15, 12);
 				
-				glTranslatef(0, 0.45, 0);
-				drawcy(0.2, 0.15, 0.15, 12);
-			glPopMatrix();
+		// 		glTranslatef(0, 0.45, 0);
+		// 		drawcy(0.2, 0.15, 0.15, 12);
+		// 	glPopMatrix();
 			
-			//Gun
-			glPushMatrix();
-				glTranslatef(0.0, 0.1, 0.6);
-				glRotatef(90, 0, 1, 0);
-				glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_GUN), 0, 0, 1);
-				drawGunshild_Player();
-				glRotatef(180, 0, 1, 0);
-				drawcy(0.05, 0.05, 2.0, 12);
-			glPopMatrix();
-		glPopMatrix();
+		// glPopMatrix();
 		
 		//Right side
-		glPushMatrix();
-			//Right track
-			glTranslatef(0.5, -0.125, 0);
-			if(not_black){
-				glColor3f(0.5, 0.5, 0.5);
-			}
-			drawTrack_Player();
+		// glPushMatrix();
+		// 	//Right track
+		// 	glTranslatef(0.5, -0.125, 0);
+		// 	if(not_black){
+		// 		glColor3f(0.5, 0.5, 0.5);
+		// 	}
+		// 	drawTrack_Player();
 			
-			//Right fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.0078125, 0.3671875, 0.12890625);
-			}
-			drawFender_Player();
+		// 	//Right fender
+		// 	glTranslatef(0, 0.05, 0);
+		// 	if(not_black){
+		// 		glColor3f(0.0078125, 0.3671875, 0.12890625);
+		// 	}
+		// 	drawFender_Player();
 			
-			//Right wheels
-			glPushMatrix();
-				glTranslatef(0.0, -0.18, 1.34);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), -1, 0, 0);
-					drawcy(0.10, 0.10, 0.22, 12);
-				glPopMatrix();
+		// 	//Right wheels
+		// 	glPushMatrix();
+		// 		glTranslatef(0.0, -0.18, 1.34);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), -1, 0, 0);
+		// 			drawcy(0.10, 0.10, 0.22, 12);
+		// 		glPopMatrix();
 				
-				glTranslatef(0, -0.05, -0.3);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 		glTranslatef(0, -0.05, -0.3);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
+		// 			drawcy(0.17, 0.17, 0.22, 12);
+		// 		glPopMatrix();
 				
-				glTranslatef(0, 0, -0.5);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 		glTranslatef(0, 0, -0.5);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
+		// 			drawcy(0.17, 0.17, 0.22, 12);
+		// 		glPopMatrix();
 				
-				glTranslatef(0, 0, -0.38);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 		glTranslatef(0, 0, -0.38);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
+		// 			drawcy(0.17, 0.17, 0.22, 12);
+		// 		glPopMatrix();
 				
-				glTranslatef(0, 0, -0.38);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 		glTranslatef(0, 0, -0.38);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
+		// 			drawcy(0.17, 0.17, 0.22, 12);
+		// 		glPopMatrix();
 				
-				glTranslatef(0, 0, -0.38);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 		glTranslatef(0, 0, -0.38);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
+		// 			drawcy(0.17, 0.17, 0.22, 12);
+		// 		glPopMatrix();
 				
-				glTranslatef(0, 0.05, -0.3);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
-					drawcy(0.10, 0.10, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
+		// 		glTranslatef(0, 0.05, -0.3);
+		// 		glPushMatrix();
+		// 			glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_R), 1, 0, 0);
+		// 			drawcy(0.10, 0.10, 0.22, 12);
+		// 		glPopMatrix();
+		// 	glPopMatrix();
+		// glPopMatrix();
 		
 		//Left track
-		glPushMatrix();
-			glTranslatef(-0.76, -0.125, 0);
-			if(not_black){
-				glColor3f(0.5, 0.5, 0.5);
-			}
-			drawTrack_Player();
+		// glPushMatrix();
+		// 	glTranslatef(-0.76, -0.125, 0);
+		// 	if(not_black){
+		// 		glColor3f(0.5, 0.5, 0.5);
+		// 	}
+		// 	drawTrack_Player();
 			
-			//Left fender
-			glTranslatef(0, 0.05, 0);
-			if(not_black){
-				glColor3f(0.0078125, 0.3671875, 0.12890625);
-			}
-			drawFender_Player();
+		// 	//Left fender
+		// 	glTranslatef(0, 0.05, 0);
+		// 	if(not_black){
+		// 		glColor3f(0.0078125, 0.3671875, 0.12890625);
+		// 	}
+		// 	drawFender_Player();
 			
-			//Left wheels
-			glPushMatrix();
-				glTranslatef(0.03, 0.0, 0.0);
-				glTranslatef(0.0, -0.18, 1.34);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.10, 0.10, 0.22, 12);
-				glPopMatrix();
+		// 	//Left wheels
+		// 	// glPushMatrix();
+		// 	// 	glTranslatef(0.03, 0.0, 0.0);
+		// 	// 	glTranslatef(0.0, -0.18, 1.34);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.10, 0.10, 0.22, 12);
+		// 	// 	glPopMatrix();
 				
-				glTranslatef(0, -0.05, -0.3);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 	// 	glTranslatef(0, -0.05, -0.3);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
+		// 	// 	glPopMatrix();
 				
-				glTranslatef(0, 0, -0.5);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 	// 	glTranslatef(0, 0, -0.5);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
+		// 	// 	glPopMatrix();
 				
-				glTranslatef(0, 0, -0.38);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 	// 	glTranslatef(0, 0, -0.38);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
+		// 	// 	glPopMatrix();
 				
-				glTranslatef(0, 0, -0.38);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 	// 	glTranslatef(0, 0, -0.38);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
+		// 	// 	glPopMatrix();
 				
-				glTranslatef(0, 0, -0.38);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.17, 0.17, 0.22, 12);
-				glPopMatrix();
+		// 	// 	glTranslatef(0, 0, -0.38);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.17, 0.17, 0.22, 12);
+		// 	// 	glPopMatrix();
 				
-				glTranslatef(0, 0.05, -0.3);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
-					drawcy(0.10, 0.10, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
+		// 	// 	glTranslatef(0, 0.05, -0.3);
+		// 	// 	glPushMatrix();
+		// 	// 		glRotatef(joint_ui_data->getDOF(Keyframe::PLAYER_WHEELS_L), 1, 0, 0);
+		// 	// 		drawcy(0.10, 0.10, 0.22, 12);
+		// 	// 	glPopMatrix();
+		// 	// glPopMatrix();
+		// glPopMatrix();
 	glPopMatrix();
 }
 
@@ -2405,66 +2430,29 @@ void drawBall(float r){
 // PLAYER PARTS
 void drawBody_Player(){
 	glBegin(GL_QUADS);
-		// draw front upper face
-		glNormal3f(0.0, 0.948683, 0.316228);
-		glVertex3f( 0.5,  0.0, 1.0);
-		glVertex3f(-0.5,  0.0, 1.0);
-		glVertex3f(-0.5, -1.0/6.0, 1.5);
-		glVertex3f( 0.5, -1.0/6.0, 1.5);
+	 glPushMatrix();
+      glScalef(3.0, 3.0, 3.0);
+      glTranslatef(3, 4, 5);
 
-		// draw front lower face
-		glNormal3f(0.0, -0.768221, 0.640185);
-		glVertex3f( 0.5, -1.0/6.0, 1.5);
-		glVertex3f(-0.5, -1.0/6.0, 1.5);
-		glVertex3f(-0.5, -1.0/3.0, 1.3);
-		glVertex3f( 0.5, -1.0/3.0, 1.3);
+      // body
+      glPushMatrix();
+         glScalef(1.0, 1.0, 10.0);
+      glPopMatrix();
 
-		// draw back face
-		glNormal3f(0.0, 0.287348, 0.957826);
-		glVertex3f( 0.5, -1.0/3.0, -0.9);
-		glVertex3f( 0.5,  0.0, -1.0);
-		glVertex3f(-0.5,  0.0, -1.0);
-		glVertex3f(-0.5, -1.0/3.0, -0.9);
-		
-		 // draw left face
-		glNormal3f(-1.0,  0.0,  0.0);
-		glVertex3f(-0.5,  0.0, -1.0);
-		glVertex3f(-0.5,  0.0,  1.0);
-		glVertex3f(-0.5, -1.0/3.0,  1.3);
-		glVertex3f(-0.5, -1.0/3.0, -0.9);
+      // tail
+      glPushMatrix();
+         glTranslatef(0, 0, -8.5);
+         glScalef(3.0, 0.2, 0.5);
+         glPushMatrix();
+            glRotatef(90, 0, 0, 1);
+         glPopMatrix();
+      glPopMatrix();
 
-		glNormal3f(-1.0,  0.0,  0.0);
-		glVertex3f(-0.5,  0.0,  1.0);
-		glVertex3f(-0.5, -1.0/6.0,  1.5);
-		glVertex3f(-0.5, -1.0/3.0,  1.3);
-		glVertex3f(-0.5, -1.0/3.0,  1.3);
-
-		// // draw right face
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.5, -1.0/3.0, -0.9);
-		glVertex3f( 0.5, -1.0/3.0,  1.3);
-		glVertex3f( 0.5,  0.0,  1.0);
-		glVertex3f( 0.5,  0.0, -1.0);
-		
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.5, -1.0/3.0,  1.3);
-		glVertex3f( 0.5, -1.0/6.0,  1.5);
-		glVertex3f( 0.5,  0.0,  1.0);		
-		glVertex3f( 0.5,  0.0,  1.0);
-
-		// // draw top
-		glNormal3f(  0.0, 1.0,  0.0);
-		glVertex3f(  0.5, 0.0, -1.0);
-		glVertex3f( -0.5, 0.0, -1.0);
-		glVertex3f( -0.5, 0.0,  1.0);
-		glVertex3f(  0.5, 0.0,  1.0);
-
-		// // draw bottom
-		glNormal3f(  0.0, -1.0,  0.0);
-		glVertex3f(  0.5, -1.0/3.0,  1.3);
-		glVertex3f( -0.5, -1.0/3.0,  1.3);
-		glVertex3f( -0.5, -1.0/3.0, -0.9);
-		glVertex3f(  0.5, -1.0/3.0, -0.9);
+      // wing
+      glPushMatrix();
+         glTranslatef(0, 0, 3.0);
+         glScalef(10.0, 0.3, 1.0);
+      glPopMatrix();
 	glEnd();
 }
 
