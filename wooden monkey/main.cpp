@@ -1991,19 +1991,19 @@ void DrawBody(){
     glColor3f(0.32, 0.34, 0.145);
     glTranslatef(0, 0.3, -7.2);
     glutSolidSphere(1.6, 20, 20);
-    //ftero
-    glPushMatrix();
     
+    // Horizontal Rudder
+    glPushMatrix();
     glColor3f(0, 0.8, 0);
     glTranslatef(0, 0 , 1);
     glScaled(1.7, 0.15,0.7);
     glutSolidSphere(3.5,20,20);
     glPopMatrix();
-    //ftero
-    glPushMatrix();
     
+    // Vertical Rudder
+    glPushMatrix();
     glColor3f(0, 0.8, 0);
-    glTranslatef(0, 2 , 1);
+    glTranslatef(0, 2 , -7); // z for moving along body horizontally
     glScaled(0.15, 1,0.4);
     glutSolidSphere(3.5,20,20);
     glPopMatrix();
