@@ -26,8 +26,8 @@ GLuint GroundMap::LoadTexture(char * source)
     GLuint texture;
     FILE * file = fopen(source, "r" );
     
-    int width = 1024;
-    int height = 1024;
+    int width = 2048;
+    int height = 2048;
     unsigned char *picture = (unsigned char *)malloc(width * height * 3);
     unsigned char *picture_copy = (unsigned char *)malloc(width * height * 3);
     fread(picture, width * height * 3, 1, file );

@@ -248,7 +248,6 @@ void drawPlayer(int not_black);
 void drawE1(int not_black);
 void drawE2(int not_black);
 void drawE3(int not_black);
-void drawTD(int not_black);
 void drawEnemyPlane(int not_black);
 
 void drawHead_Player();
@@ -691,21 +690,6 @@ void initGlui()
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::PLAYER_TURRET));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::PLAYER_GUN));
-	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::PLAYER_WHEELS_R));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::PLAYER_WHEELS_L));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 
 	glui_joints->add_column(false);
 	
@@ -736,21 +720,6 @@ void initGlui()
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E1_TURRET));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E1_GUN));
-	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E1_WHEELS_R));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E1_WHEELS_L));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 
 	// Create controls to specify E2 rotation
 	glui_panel = glui_joints->add_panel("E2");
@@ -779,21 +748,6 @@ void initGlui()
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E2_TURRET));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E2_GUN));
-	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E2_WHEELS_R));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E2_WHEELS_L));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 
 	// Create controls to specify E3 rotation
 	glui_panel = glui_joints->add_panel("E3");
@@ -821,68 +775,10 @@ void initGlui()
 	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E3_ROTATE_Z));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
-	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E3_TURRET));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E3_GUN));
-	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E3_WHEELS_R));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::E3_WHEELS_L));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 
 	glui_joints->add_column(false);
 	
-	// Create controls to specify TD rotation
-	glui_panel = glui_joints->add_panel("TD");
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_TRANSLATE_X));
-	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_TRANSLATE_Y));
-	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_TRANSLATE_Z));
-	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_ROTATE_X));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_ROTATE_Y));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_ROTATE_Z));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_TURRET));
-	glui_spinner->set_float_limits(TD_ROTATE_MIN, TD_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_GUN));
-	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_WHEELS_R));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::TD_WHEELS_L));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
 	
 	// Create controls to specify EnemyPlane rotation
 	glui_panel = glui_joints->add_panel("Enemy Fighter");
@@ -911,21 +807,7 @@ void initGlui()
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "turret:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_TURRET));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "gun:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_GUN));
-	glui_spinner->set_float_limits(GUN_ROTATE_MIN, GUN_ROTATE_MAX, GLUI_LIMIT_CLAMP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-	
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels R:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_WHEELS_R));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
-
-	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "Wheels L:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_WHEELS_L));
-	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
-	glui_spinner->set_speed(SPINNER_SPEED);
 	
 	glui_joints->add_column(false);
 	
@@ -1012,6 +894,56 @@ void initGlui()
 	glui_spinner->set_speed(SPINNER_SPEED);
 
 	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL2_ROTATE_Z));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_panel = glui_joints->add_panel("Shell3");
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL3_TRANSLATE_X));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL3_TRANSLATE_Y));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL3_TRANSLATE_Z));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL3_ROTATE_X));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL3_ROTATE_Y));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL3_ROTATE_Z));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_panel = glui_joints->add_panel("SHELL4");
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_TRANSLATE_X));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_TRANSLATE_Y));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_TRANSLATE_Z));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_ROTATE_X));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_ROTATE_Y));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_ROTATE_Z));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 	///////////////////////////////////////////////////////////
@@ -1376,7 +1308,6 @@ void drawAll(){
 			drawE2(1);
 			drawE3(1);
 			glTranslatef(0.0, -0.05, 0.0);
-			drawTD(1);
 			glTranslatef(0.0, 0.35, 0.0);
 			drawEnemyPlane(1);
 		glPopMatrix();
@@ -1421,7 +1352,6 @@ void drawAll(){
 			drawE2(0);
 			drawE3(0);
 			glTranslatef(0.0, -0.05, 0.0);
-			drawTD(0);
 			glTranslatef(0.0, 0.35, 0.0);
 			drawEnemyPlane(0);
 		glPopMatrix();
@@ -1511,90 +1441,52 @@ void Cube() //正方体
 	glVertex3f(1.0f, 1.0f, -1.0f);
 	glEnd();
 }
-void Circle() //圆面
-{
-	glBegin(GL_TRIANGLE_FAN);//扇形连续填充三角形串
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	int i = 0;
-	for (i = 0; i <= 375; i += 15)
-	{
-		float p = i * 3.14 / 180;
-		glVertex3f(sin(p), cos(p), 0.0f);
-	}
-	glEnd();
-}
 
-void Cylinder() //圆柱
-{
-	glBegin(GL_QUAD_STRIP);//连续填充四边形串
-	int i = 0;
-	for (i = 0; i <= 375; i += 15)
-	{
-		float p = i * 3.14 / 180;
-		glVertex3f(sin(p), cos(p), 1.0f);
-		glVertex3f(sin(p), cos(p), 0.0f);
-	}
-	glEnd();
-	Circle();
-	glTranslatef(0, 0, 1);
-	Circle();
-}
-void Cone() //圆锥
-{
-	glBegin(GL_QUAD_STRIP);//连续填充四边形串
-	int i = 0;
-	for (i = 0; i <= 390; i += 15)
-	{
-		float p = i * 3.14 / 180;
-		glVertex3f(0, 0, 1.0f);
-		glVertex3f(sin(p), cos(p), 0.0f);
-	}
-	glEnd();
-	Circle();
-}
 void drawE1(int not_black){
-	float x=4,y=4,z=4;
-	static float i = 0, f = 0;
-	i += 0.1;
-	f += 0.01;
-	if (i > 360)
-		i = 0;
-	if (f > 360)
-		f = 0;
 	glPushMatrix();
-	glTranslatef(x, y, z);
-	glRotatef(f, 1, 1, 1);
+		if(not_black){
+			glColor3f(0.028125, 0.3671875, 0.52890625);
+		}
+		glTranslatef(joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_X),
+				joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_Y),
+				joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::E1_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::E1_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::E1_ROTATE_Z), 0.0, 0.0, 1.0);
+		// Fuselage
+	    glPushMatrix();
+	    glTranslatef(-0.5f, 0, 0);
+	    glScalef(2.0f, 0.4f, 0.5f); // x for width, y for thickness, z for length
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 
-	glPushMatrix();
-	glColor3f(0.5, 1.5, 0.5);
-	glRotatef(i, 0, 1, 0);
-	glTranslatef(0, 0, 0.5);
-	glScalef(0.1, 0.05, 1);
-	Cube(); //螺旋桨
+	    // Rear Fuselage
+	    glPushMatrix();
+	    glTranslatef(1.0f, 0.15f, 0);
+	    glScalef(2.75f, 0.25f, 0.5f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 
-	glPopMatrix();
+	    // Wings
+	    glPushMatrix();
+	    glTranslatef(0, 0.3f, 0);
+	    glScalef(0.5f, 0.07f, 8.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 
-	glTranslatef(0, -0.1, 0);
-	glScalef(0.1, 0.1, 0.1);
-	Cube();
-	glScalef(10, 10, 10);
+	    // Rudder
+	    glPushMatrix();
+	    glTranslatef(2.0f, 0.775f, 0);
+	    glScalef(0.375f, 1.05f, 0.02f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 
-	glColor3f(1, 0, 1);
-	glTranslatef(0.04, -0.05, -0.9);
-	glScalef(0.1, 0.1, 1.5);
-	Cylinder();
-	glColor3f(0, 1, 0);
-	glScalef(1, 1, 0.2);
-	Cone();
-	glColor3f(0, 1, 1);
-	glTranslatef(0, 0.7, -4.5);
-	glScalef(0.2, 2, 1);
-	Cube();
-
-	glTranslatef(-13, 0.3, 0);
-	glScalef(27, 0.1, 1);
-	Cube();
-
+	    // Tail-plane
+	    glPushMatrix();
+	    glTranslatef(1.9f, 0, 0);
+	    glScalef(0.275f, 0.1f, 2.0f);
+	    glutSolidCube(1.0f);
+	    glPopMatrix();
 	glPopMatrix();	
 }
 
@@ -1694,245 +1586,10 @@ void drawE3(int not_black){
 	glPopMatrix();
 }
 
-void drawTD(int not_black){
-	glPushMatrix();
-		if(not_black){
-			glColor3f(0.6, 0.6, 0.65);
-		}
-		glTranslatef(joint_ui_data->getDOF(Keyframe::TD_TRANSLATE_X),
-				joint_ui_data->getDOF(Keyframe::TD_TRANSLATE_Y),
-				joint_ui_data->getDOF(Keyframe::TD_TRANSLATE_Z));
-		glRotatef(joint_ui_data->getDOF(Keyframe::TD_ROTATE_Y), 0.0, 1.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::TD_ROTATE_X), 1.0, 0.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::TD_ROTATE_Z), 0.0, 0.0, 1.0);
-		//Body
-		drawBody_TD();
-		
-		//Head
-		glPushMatrix();
-			glTranslatef(0.0, 0.0, -0.5);
-			drawHead_TD();
-			
-			//hatch
-			glPushMatrix();
-				glTranslatef(0.15, 0.25, -0.3);
-				glRotatef(90, 0, 0, 1);
-				drawcy(0.2, 0.18, 0.15, 12);
-			glPopMatrix();
-			
-			//Gun
-			glPushMatrix();
-				glTranslatef(0.0, 0.175, 0.1);
-				drawGunshild_TD();
-				
-				glRotatef(joint_ui_data->getDOF(Keyframe::TD_TURRET), 0, 1, 0);
-				glRotatef(joint_ui_data->getDOF(Keyframe::TD_GUN), 1, 0, 0);
-				glRotatef(-90, 0, 1, 0);
-				
-				glTranslatef(0.52, 0.05, 0);
-				drawCube(0.05,0.3,0.35);
-				glTranslatef(-0.5, 0, 0);
-				
-				drawcy(0.06, 0.06, 2.2, 12);
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Right side
-		glPushMatrix();
-			//Right track
-			glTranslatef(0.5, -0.27, -0.07);
-			if(not_black){
-				glColor3f(0.5, 0.5, 0.5);
-			}
-			drawTrack_Player();
-			
-			//Right fender
-			glTranslatef(0, 0.10, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_TD();
-			
-			//Right wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.6, 0.6, 0.65);
-				}
-				glTranslatef(0.0, -0.2, 1.34);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, -0.1, -0.3);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.35);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.35);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0.1, -0.3);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_R), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
-		
-		//Left track
-		glPushMatrix();
-			glTranslatef(-0.76, -0.27, -0.07);
-			if(not_black){
-				glColor3f(0.5, 0.5, 0.5);
-			}
-			drawTrack_Player();
-			
-			//Left fender
-			glTranslatef(0, 0.10, 0);
-			if(not_black){
-				glColor3f(0.6, 0.6, 0.65);
-			}
-			drawFender_TD();
-			
-			//Left wheels
-			glPushMatrix();
-				if(not_black){
-					glColor3f(0.6, 0.6, 0.65);
-				}
-				glTranslatef(0.0, -0.15, 1.34);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, -0.1, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.35);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.35);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.15, 0.15, 0.22, 12);
-				glPopMatrix();
-				
-				glTranslatef(0, 0.1, -0.32);
-				glPushMatrix();
-					glRotatef(joint_ui_data->getDOF(Keyframe::TD_WHEELS_L), 1, 0, 0);
-					drawcy(0.1, 0.1, 0.22, 12);
-				glPopMatrix();
-			glPopMatrix();
-		glPopMatrix();
-	glPopMatrix();
-}
+
 float rspeed_propeller=0.0;
 float rspeed_airplane_flip=0.0;
-void DrawBomb(){
-    
-    glPushMatrix();
-    
-    glColor3f(1, 1, 1);
-    
-    
-    glPushMatrix();
-    glTranslatef(0, 0, 4.2);
-    glColor3f(0.4, 0.4, 0.4);
-    glScaled(0.95, 0.85, 2.3);
-    glutSolidSphere(2, 20, 20);
-    glPopMatrix();
-    
-    glPushMatrix();
-    glTranslatef(0, 0, 8.5);
-    glColor3f(1, 0, 0);
-    // glScaled(0.95, 0.85, 2.3);
-    glutSolidSphere(0.3, 20, 20);
-    glPopMatrix();
-    
-    glPushMatrix();
-    
-    glColor3f(0, 0.5, 0);
-    glTranslatef(0, 0, 2);
-    //glutSolidSphere(1.6, 20, 20);
-    
-    
-    //ftero
-    glPushMatrix();
-    glColor3f(0, 1, 0);
-    glTranslatef(0, 0 , 0);
-    glScaled(1.2, 0.15,0.7);
-    glutSolidSphere(2.5,20,20);
-    glPopMatrix();
-    
-    //ftero
-    glPushMatrix();
-    glColor3f(0, 1, 0);
-    glTranslatef(0, 0 , 0);
-    glScaled(0.15, 1.2,0.7);
-    glutSolidSphere(2.5,20,20);
-    glPopMatrix();
-    
-    
-    
-    glPopMatrix();
-    
-    glPopMatrix();
-    
-    
-}
+
 void DrawWingCircle(){
     //circle blue
     glPushMatrix();
@@ -2088,6 +1745,236 @@ void DrawPropeller(){
     
 }
 
+void drawShell1(){
+	glPushMatrix();
+		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL1_TRANSLATE_X),
+					joint_ui_data->getDOF(Keyframe::SHELL1_TRANSLATE_Y),
+					joint_ui_data->getDOF(Keyframe::SHELL1_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL1_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL1_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL1_ROTATE_Z), 0.0, 0.0, 1.0);
+		glColor3f(0.8,0.8,0.8);
+		drawCube(0.07, 0.07, 0.4);
+    
+    glColor3f(1, 1, 1);
+    
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 4.2);
+    glColor3f(0.4, 0.4, 0.4);
+    glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 8.5);
+    glColor3f(1, 0, 0);
+    // glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0, 0.5, 0);
+    glTranslatef(0, 0, 2);
+    //glutSolidSphere(1.6, 20, 20);
+    
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(1.2, 0.15,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(0.15, 1.2,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+
+void drawShell2(){
+	glPushMatrix();
+		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL2_TRANSLATE_X),
+					joint_ui_data->getDOF(Keyframe::SHELL2_TRANSLATE_Y),
+					joint_ui_data->getDOF(Keyframe::SHELL2_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL2_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL2_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL2_ROTATE_Z), 0.0, 0.0, 1.0);
+		glColor3f(0.8,0.8,0.8);
+		drawCube(0.07, 0.07, 0.4);
+    
+    glColor3f(1, 1, 1);
+    
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 4.2);
+    glColor3f(0.4, 0.4, 0.4);
+    glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 8.5);
+    glColor3f(1, 0, 0);
+    // glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0, 0.5, 0);
+    glTranslatef(0, 0, 2);
+    //glutSolidSphere(1.6, 20, 20);
+    
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(1.2, 0.15,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(0.15, 1.2,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+void drawShell3(){
+	glPushMatrix();
+		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL3_TRANSLATE_X),
+					joint_ui_data->getDOF(Keyframe::SHELL3_TRANSLATE_Y),
+					joint_ui_data->getDOF(Keyframe::SHELL3_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL3_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL3_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL3_ROTATE_Z), 0.0, 0.0, 1.0);
+		glColor3f(0.8,0.8,0.8);
+		drawCube(0.07, 0.07, 0.4);
+    
+    glColor3f(1, 1, 1);
+    
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 4.2);
+    glColor3f(0.4, 0.4, 0.4);
+    glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 8.5);
+    glColor3f(1, 0, 0);
+    // glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0, 0.5, 0);
+    glTranslatef(0, 0, 2);
+    //glutSolidSphere(1.6, 20, 20);
+    
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(1.2, 0.15,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(0.15, 1.2,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+void drawShell4(){
+	glPushMatrix();
+		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL4_TRANSLATE_X),
+					joint_ui_data->getDOF(Keyframe::SHELL4_TRANSLATE_Y),
+					joint_ui_data->getDOF(Keyframe::SHELL4_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL4_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL4_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL4_ROTATE_Z), 0.0, 0.0, 1.0);
+		glColor3f(0.8,0.8,0.8);
+		drawCube(0.07, 0.07, 0.4);
+    
+    glColor3f(1, 1, 1);
+    
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 4.2);
+    glColor3f(0.4, 0.4, 0.4);
+    glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 8.5);
+    glColor3f(1, 0, 0);
+    // glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0, 0.5, 0);
+    glTranslatef(0, 0, 2);
+    //glutSolidSphere(1.6, 20, 20);
+    
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(1.2, 0.15,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(0.15, 1.2,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+
 void drawEnemyPlane(int not_black){
 	glPushMatrix();
 		if(not_black){
@@ -2133,7 +2020,7 @@ void drawEnemyPlane(int not_black){
     glPopMatrix();
     
     glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    DrawBomb();
+    drawShell1();
     glPopMatrix();
     
     //Left 2 Bomb
@@ -2145,7 +2032,7 @@ void drawEnemyPlane(int not_black){
     DrawCylinder();
     glPopMatrix();
     glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    DrawBomb();
+    drawShell2();
     glPopMatrix();
     //Right Bomb
     glPushMatrix();
@@ -2158,7 +2045,7 @@ void drawEnemyPlane(int not_black){
     glPopMatrix();
     
     glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    DrawBomb();
+    drawShell3();
     glPopMatrix();
     //Right 2 Bomb
     glPushMatrix();
@@ -2169,7 +2056,7 @@ void drawEnemyPlane(int not_black){
     DrawCylinder();
     glPopMatrix();
     glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    DrawBomb();
+    drawShell4();
     glPopMatrix();
     //Right Propeller
     glPushMatrix();
@@ -3281,31 +3168,8 @@ void drawGunshild_EnemyPlane(){
 	glEnd();
 }
 
-void drawShell1(){
-	glPushMatrix();
-		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL1_TRANSLATE_X),
-					joint_ui_data->getDOF(Keyframe::SHELL1_TRANSLATE_Y),
-					joint_ui_data->getDOF(Keyframe::SHELL1_TRANSLATE_Z));
-		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL1_ROTATE_Y), 0.0, 1.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL1_ROTATE_X), 1.0, 0.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL1_ROTATE_Z), 0.0, 0.0, 1.0);
-		glColor3f(0.8,0.8,0.8);
-		drawCube(0.07, 0.07, 0.4);
-	glPopMatrix();
-}
 
-void drawShell2(){
-	glPushMatrix();
-		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL2_TRANSLATE_X),
-					joint_ui_data->getDOF(Keyframe::SHELL2_TRANSLATE_Y),
-					joint_ui_data->getDOF(Keyframe::SHELL2_TRANSLATE_Z));
-		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL2_ROTATE_Y), 0.0, 1.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL2_ROTATE_X), 1.0, 0.0, 0.0);
-		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL2_ROTATE_Z), 0.0, 0.0, 1.0);
-		glColor3f(0.8,0.8,0.8);
-		drawCube(0.07, 0.07, 0.4);
-	glPopMatrix();
-}
+
 // COMMON PARTS
 
 void drawcy(float r1, float r2, float length, int num){
