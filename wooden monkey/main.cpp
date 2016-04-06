@@ -241,6 +241,7 @@ void drawSpark(float size);
 void drawBall(float r);
 void drawShell1();
 void drawShell2();
+void drawSMALLSHELL();
 void drawAll();
 
 void drawMap();
@@ -946,6 +947,34 @@ void initGlui()
 	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SHELL4_ROTATE_Z));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_joints->add_column(false);
+	
+	glui_panel = glui_joints->add_panel("SMALLSHELL");
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SMALLSHELL_TRANSLATE_X));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SMALLSHELL_TRANSLATE_Y));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "translate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SMALLSHELL_TRANSLATE_Z));
+	glui_spinner->set_float_limits(TRANSLATE_MIN, TRANSLATE_MAX, GLUI_LIMIT_CLAMP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate x:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SMALLSHELL_ROTATE_X));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate y:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SMALLSHELL_ROTATE_Y));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::SMALLSHELL_ROTATE_Z));
+	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(SPINNER_SPEED);
+
 	///////////////////////////////////////////////////////////
 	// TODO (for controlling light source position & additional
 	//      rendering styles):
@@ -1311,8 +1340,6 @@ void drawAll(){
 			glTranslatef(0.0, 0.35, 0.0);
 			drawEnemyPlane(1);
 		glPopMatrix();
-		drawShell1();
-		drawShell2();
 		
 		glPushMatrix();
 			glTranslatef(joint_ui_data->getDOF(Keyframe::SPARK_TRANSLATE_X),
@@ -1345,7 +1372,7 @@ void drawAll(){
 		glColor3f(0.0, 0.0, 0.0);
 		
 		drawPlayer(0);
-		
+		drawSMALLSHELL();
 		glPushMatrix();
 			glTranslatef(0.0, 0.21, 0.0);
 			drawE1(0);
@@ -1917,6 +1944,7 @@ void drawShell3(){
     
     glPopMatrix();
 }
+
 void drawShell4(){
 	glPushMatrix();
 		glTranslatef(joint_ui_data->getDOF(Keyframe::SHELL4_TRANSLATE_X),
@@ -1925,6 +1953,65 @@ void drawShell4(){
 		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL4_ROTATE_Y), 0.0, 1.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL4_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::SHELL4_ROTATE_Z), 0.0, 0.0, 1.0);
+		glColor3f(0.8,0.8,0.8);
+		drawCube(0.07, 0.07, 0.4);
+    
+    glColor3f(1, 1, 1);
+    
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 4.2);
+    glColor3f(0.4, 0.4, 0.4);
+    glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(2, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslatef(0, 0, 8.5);
+    glColor3f(1, 0, 0);
+    // glScaled(0.95, 0.85, 2.3);
+    glutSolidSphere(0.3, 20, 20);
+    glPopMatrix();
+    
+    glPushMatrix();
+    
+    glColor3f(0, 0.5, 0);
+    glTranslatef(0, 0, 2);
+    //glutSolidSphere(1.6, 20, 20);
+    
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(1.2, 0.15,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    //ftero
+    glPushMatrix();
+    glColor3f(0, 1, 0);
+    glTranslatef(0, 0 , 0);
+    glScaled(0.15, 1.2,0.7);
+    glutSolidSphere(2.5,20,20);
+    glPopMatrix();
+    
+    
+    
+    glPopMatrix();
+    
+    glPopMatrix();
+}
+
+// Draw shells for small planes
+void drawSMALLSHELL(){
+	glPushMatrix();
+		glTranslatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_TRANSLATE_X),
+					joint_ui_data->getDOF(Keyframe::SMALLSHELL_TRANSLATE_Y),
+					joint_ui_data->getDOF(Keyframe::SMALLSHELL_TRANSLATE_Z));
+		glRotatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_ROTATE_Y), 0.0, 1.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_ROTATE_X), 1.0, 0.0, 0.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_ROTATE_Z), 0.0, 0.0, 1.0);
 		glColor3f(0.8,0.8,0.8);
 		drawCube(0.07, 0.07, 0.4);
     
