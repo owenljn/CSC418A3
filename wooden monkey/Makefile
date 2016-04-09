@@ -15,7 +15,7 @@ CCC	          = /usr/bin/g++
 CFLAGS        = -Wall -c -g
 
 # Define C++ compiler options
-CCCFLAGS      = -Wall -c -g
+CCCFLAGS      =  -Wno-write-strings -Wall -c -g
 
 # Define C/C++ pre-processor options
 CPPFLAGS      = -I./

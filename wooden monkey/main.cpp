@@ -60,6 +60,7 @@ GroundMap map;
 const float PI = 3.14159;
 
 const float SPINNER_SPEED = 1.5;
+const float PROPELLER_SPEED = 10;
 
 // --------------- USER INTERFACE VARIABLES -----------------
 
@@ -93,10 +94,6 @@ GLdouble camZPos = -7.5;
 const GLdouble CAMERA_FOVY = 60.0;
 const GLdouble NEAR_CLIP   = 0.1;
 const GLdouble FAR_CLIP    = 1000.0;
-
-// Render settings
-enum { WIREFRAME, SOLID, OUTLINED, METALLIC, MATTE };	// README: the different render styles
-int renderStyle = WIREFRAME;			// README: the selected render style
 
 // Animation settings
 int animate_mode = 0;			// 0 = no anim, 1 = animate
@@ -159,28 +156,6 @@ const float ROOT_ROTATE_Y_MIN    = -180.0;
 const float ROOT_ROTATE_Y_MAX    =  180.0;
 const float ROOT_ROTATE_Z_MIN    = -180.0;
 const float ROOT_ROTATE_Z_MAX    =  180.0;
-const float HEAD_MIN             = -78.0;
-const float HEAD_MAX             =  78.0;
-const float SHOULDER_PITCH_MIN   = -45.0;
-const float SHOULDER_PITCH_MAX   =  45.0;
-const float SHOULDER_YAW_MIN     = -15.0;
-const float SHOULDER_YAW_MAX     =  65.0;
-const float SHOULDER_ROLL_MIN    = -45.0;
-const float SHOULDER_ROLL_MAX    =  45.0;
-const float HIP_PITCH_MIN        = -45.0;
-const float HIP_PITCH_MAX        =  45.0;
-const float HIP_YAW_MIN          = -45.0;
-const float HIP_YAW_MAX          =  45.0;
-const float HIP_ROLL_MIN         = -45.0;
-const float HIP_ROLL_MAX         =  45.0;
-const float BEAK_MIN             =  0.0;
-const float BEAK_MAX             =  0.25;
-const float ELBOW_MIN            =  0.0;
-const float ELBOW_MAX            = 75.0;
-const float KNEE_MIN             =  0.0;
-const float KNEE_MAX             = 75.0;
-
-
 
 
 // Size declearations
@@ -194,17 +169,11 @@ const float TRANSLATE_MIN = -64.0;
 const float TRANSLATE_MAX =  64.0;
 const float ROTATE_MIN    = -360.0;
 const float ROTATE_MAX    =  360.0;
-
-const float GUN_ROTATE_MIN = -25;
-const float GUN_ROTATE_MAX = 8;
-
-const float TD_ROTATE_MIN = -15;
-const float TD_ROTATE_MAX = 15;
+const float PROPELLER_MIN = 0;
+const float PROPELLER_MAX = 360*100;
 
 const float SPARK_MIN = -15;
 const float SPARK_MAX = 15;
-
-int nmb = 0;
 
 // ***********  FUNCTION HEADER DECLARATIONS ****************
 
@@ -232,10 +201,7 @@ void motion(int x, int y);
 // Functions to help draw the object
 Vector getInterpolatedJointDOFS(float time);
 
-void drawnmb();
 void drawCube(float x, float y, float z);
-void drawCircle(float r, int num, int is_front);
-void drawcy(float r1, float r2, float length, int num);
 
 void drawSpark(float size);
 void drawBall(float r);
@@ -250,28 +216,6 @@ void drawE1(int not_black);
 void drawE2(int not_black);
 void drawE3(int not_black);
 void drawEnemyPlane(int not_black);
-
-void drawHead_Player();
-void drawBody_Player();
-void drawTrack_Player();
-void drawFender_Player();
-void drawGunshild_Player();
-
-void drawHead_E();
-void drawBody_E();
-void drawFender_E();
-
-void drawHead_TD();
-void drawBody_TD();
-void drawTrack_TD();
-void drawFender_TD();
-void drawGunshild_TD();
-
-void drawHead_EnemyPlane();
-void drawBody_EnemyPlane();
-void drawTrack_EnemyPlane();
-void drawFender_EnemyPlane();
-void drawGunshild_EnemyPlane();
 
 // Image functions
 void writeFrame(char* filename, bool pgm, bool frontBuffer);
@@ -373,7 +317,6 @@ int main(int argc, char** argv)
 	spark_Z[21] = 0.6723293813152816;
 	spark_Z[22] = -0.653699794304371;
 	spark_Z[23] = 0.828736589576834;
-	
     // Initialize data structs, glut, glui, and opengl
 	initDS();
     initGlut(argc, argv);
@@ -382,6 +325,7 @@ int main(int argc, char** argv)
 
     // Invoke the standard GLUT main event loop
     
+
 	init_mo();
     glutMainLoop();
 
@@ -443,6 +387,7 @@ void loadKeyframeButton(int)
 	status->set_text(msg);
 }
 
+/*
 // Update Keyframe button handler. Called when the "update keyframe" button is pressed
 void updateKeyframeButton(int)
 {
@@ -463,7 +408,7 @@ void updateKeyframeButton(int)
 	if(keyframeID > maxValidKeyframe){
 		maxValidKeyframe = keyframeID;
 	}
-	
+
 	keyframes[keyframeID].setTime(joint_ui_data->getTime());
 	keyframes[keyframeID].setID(keyframeID);
 	// Update the appropriate entry in the 'keyframes' array
@@ -473,6 +418,31 @@ void updateKeyframeButton(int)
 		keyframes[keyframeID].setDOF(i, joint_ui_data->getDOF(i));
 	}
 
+	// Let the user know the values have been updated
+	sprintf(msg, "Status: Keyframe %d updated successfully", keyframeID);
+	status->set_text(msg);
+}
+*/
+// Update Keyframe button handler. Called when the "update keyframe" button is pressed
+void updateKeyframeButton(int)
+{
+	///////////////////////////////////////////////////////////
+	// TODO:
+	//   Modify this function to save the UI joint values into
+	//   the appropriate keyframe entry in the keyframe list
+	//   when the user clicks on the 'Update Keyframe' button.
+	//   Refer to the 'loadKeyframeButton' function for help.
+	///////////////////////////////////////////////////////////
+
+	// Get the keyframe ID from the UI
+	int keyframeID = joint_ui_data->getID();;
+
+	// Update the 'maxValidKeyframe' index variable
+	// (it will be needed when doing the interpolation)
+	maxValidKeyframe = keyframeID;
+	// Update the appropriate entry in the 'keyframes' array
+	// with the 'joint_ui_data' data
+	keyframes[keyframeID] = *joint_ui_data;
 	// Let the user know the values have been updated
 	sprintf(msg, "Status: Keyframe %d updated successfully", keyframeID);
 	status->set_text(msg);
@@ -628,7 +598,6 @@ void initGlui()
 {
 	GLUI_Panel* glui_panel;
 	GLUI_Spinner* glui_spinner;
-	GLUI_RadioGroup* glui_radio_group;
 
     GLUI_Master.set_glutIdleFunc(NULL);
 
@@ -807,9 +776,11 @@ void initGlui()
 	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "rotate z:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_ROTATE_Z));
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
-	
 
-	
+	glui_spinner = glui_joints->add_spinner_to_panel(glui_panel, "propeller:", GLUI_SPINNER_FLOAT, joint_ui_data->getDOFPtr(Keyframe::EnemyPlane_PROPELLER));
+	glui_spinner->set_float_limits(PROPELLER_MIN, PROPELLER_MAX, GLUI_LIMIT_WRAP);
+	glui_spinner->set_speed(PROPELLER_SPEED);
+
 	glui_joints->add_column(false);
 	
 	glui_panel = glui_joints->add_panel("Spark");
@@ -975,18 +946,6 @@ void initGlui()
 	glui_spinner->set_float_limits(ROTATE_MIN, ROTATE_MAX, GLUI_LIMIT_WRAP);
 	glui_spinner->set_speed(SPINNER_SPEED);
 
-	///////////////////////////////////////////////////////////
-	// TODO (for controlling light source position & additional
-	//      rendering styles):
-	//   Add more UI spinner elements here. Be sure to also
-	//   add the appropriate min/max range values to this
-	//   file, and to also add the appropriate enums to the
-	//   enumeration in the Keyframe class (keyframe.h).
-	///////////////////////////////////////////////////////////
-
-	//
-	// ***************************************************
-
 
 	// Create GLUI window (keyframe controls) ************
 	//
@@ -1005,6 +964,7 @@ void initGlui()
 	glui_spinner->set_speed(SPINNER_SPEED);
 
 	glui_keyframe->add_separator();
+
 
 	// Add buttons to load and update keyframes
 	// Add buttons to load and save keyframes from a file
@@ -1031,26 +991,9 @@ void initGlui()
 	// ***************************************************
 
 
-	// Create GLUI window (render controls) ************
-	//
-	glui_render = GLUI_Master.create_glui("Render Control", 0, 367, Win[1]+64);
-
-	// Create control to specify the render style
-	glui_panel = glui_render->add_panel("Render Style");
-	glui_radio_group = glui_render->add_radiogroup_to_panel(glui_panel, &renderStyle);
-	glui_render->add_radiobutton_to_group(glui_radio_group, "Wireframe");
-	glui_render->add_radiobutton_to_group(glui_radio_group, "Solid");
-	glui_render->add_radiobutton_to_group(glui_radio_group, "Solid w/ outlines");
-	glui_render->add_radiobutton_to_group(glui_radio_group, "Metallic");
-	glui_render->add_radiobutton_to_group(glui_radio_group, "Matte");
-	//
-	// ***************************************************
-
-
 	// Tell GLUI windows which window is main graphics window
 	glui_joints->set_main_gfx_window(windowID);
 	glui_keyframe->set_main_gfx_window(windowID);
-	glui_render->set_main_gfx_window(windowID);
 }
 
 
@@ -1304,7 +1247,7 @@ void display(void)
 //															 //
 ///////////////////////////////////////////////////////////////
 
-// DRAW OBJECTS
+// This function draws all objects required for animation
 void drawAll(){
 	//Light matrix
 		glPushMatrix();
@@ -1328,6 +1271,7 @@ void drawAll(){
 		//drawing stuff
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+		drawSMALLSHELL();
 		drawMap();
 		drawPlayer(1);
 
@@ -1372,7 +1316,6 @@ void drawAll(){
 		glColor3f(0.0, 0.0, 0.0);
 		
 		drawPlayer(0);
-		drawSMALLSHELL();
 		glPushMatrix();
 			glTranslatef(0.0, 0.21, 0.0);
 			drawE1(0);
@@ -1443,36 +1386,11 @@ void drawPlayer(int not_black){
 	    glPopMatrix();
 	glPopMatrix();
 }
-void Cube() //正方体
-{
-	glBegin(GL_QUAD_STRIP);//填充凸多边形
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(1.0f, 1.0f, -1.0f);
-	glVertex3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(0.0f, 1.0f, -1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glEnd();
-	glBegin(GL_QUAD_STRIP);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(1.0f, 0.0f, -1.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, -1.0f);
-	glVertex3f(1.0f, 1.0f, -1.0f);
-	glEnd();
-}
 
 void drawE1(int not_black){
 	glPushMatrix();
 		if(not_black){
-			glColor3f(0.028125, 0.3671875, 0.52890625);
+			glColor3f(1, 0.0, 0.0);
 		}
 		glTranslatef(joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_X),
 				joint_ui_data->getDOF(Keyframe::E1_TRANSLATE_Y),
@@ -1520,7 +1438,7 @@ void drawE1(int not_black){
 void drawE2(int not_black){
 	glPushMatrix();
 		if(not_black){
-			glColor3f(0.0048125, 0.6671875, 0.82890625);
+			glColor3f(1, 1.0, 0.25);
 		}
 		glTranslatef(joint_ui_data->getDOF(Keyframe::E2_TRANSLATE_X),
 				joint_ui_data->getDOF(Keyframe::E2_TRANSLATE_Y),
@@ -1568,7 +1486,7 @@ void drawE2(int not_black){
 void drawE3(int not_black){
 	glPushMatrix();
 		if(not_black){
-			glColor3f(0.0148125, 0.1671875, 0.42890625);
+			glColor3f(1, 0.25, 0.5);
 		}
 		glTranslatef(joint_ui_data->getDOF(Keyframe::E3_TRANSLATE_X),
 				joint_ui_data->getDOF(Keyframe::E3_TRANSLATE_Y),
@@ -1613,10 +1531,6 @@ void drawE3(int not_black){
 	glPopMatrix();
 }
 
-
-float rspeed_propeller=0.0;
-float rspeed_airplane_flip=0.0;
-
 void DrawWingCircle(){
     //circle blue
     glPushMatrix();
@@ -1634,6 +1548,7 @@ void DrawWingCircle(){
     glPopMatrix();
     
 }
+
 void DrawCylinder(){
     glColor3f(0, 0.5, 0);
     glPushMatrix();
@@ -1643,6 +1558,7 @@ void DrawCylinder(){
     gluCylinder(quadratic,0.7f,0.7f,3.6f,32,32);
     glPopMatrix();
 }
+
 void DrawBody(){
     glPushMatrix();
     
@@ -2005,13 +1921,14 @@ void drawShell4(){
 
 // Draw shells for small planes
 void drawSMALLSHELL(){
-	glPushMatrix();
+	glPushMatrix();	
 		glTranslatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_TRANSLATE_X),
 					joint_ui_data->getDOF(Keyframe::SMALLSHELL_TRANSLATE_Y),
 					joint_ui_data->getDOF(Keyframe::SMALLSHELL_TRANSLATE_Z));
 		glRotatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_ROTATE_Y), 0.0, 1.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::SMALLSHELL_ROTATE_Z), 0.0, 0.0, 1.0);
+		glScaled(0.05, 0.05, 0.05);
 		glColor3f(0.8,0.8,0.8);
 		drawCube(0.07, 0.07, 0.4);
     
@@ -2063,7 +1980,7 @@ void drawSMALLSHELL(){
 }
 
 void drawEnemyPlane(int not_black){
-	glPushMatrix();
+	glPushMatrix();	
 		if(not_black){
 			glColor3f(0.6, 0.6, 0.65);
 		}
@@ -2074,11 +1991,12 @@ void drawEnemyPlane(int not_black){
 		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_X), 1.0, 0.0, 0.0);
 		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_ROTATE_Z), 0.0, 0.0, 1.0);
 		
-    //Planes Reflection
-    GLfloat lightColor2[] = {0.3, 0.3, 0.3, 1.0f}; //Color (0.5, 0.5, 0.5)
-    GLfloat lightPos2[] = {0, -4, 0, 1.0f}; //Positioned at (0, 0, 6)
-    glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor2);
-    glLightfv(GL_LIGHT2, GL_POSITION, lightPos2);
+		glScaled(0.25, 0.25, 0.25);
+		//Planes Reflection
+		GLfloat lightColor2[] = {0.3, 0.3, 0.3, 1.0f}; //Color (0.5, 0.5, 0.5)
+		GLfloat lightPos2[] = {0, -4, 0, 1.0f}; //Positioned at (0, 0, 6)
+		glLightfv(GL_LIGHT2, GL_DIFFUSE, lightColor2);
+		glLightfv(GL_LIGHT2, GL_POSITION, lightPos2);
     
     glPushMatrix();
 
@@ -2086,97 +2004,100 @@ void drawEnemyPlane(int not_black){
     
     //Body
     glPushMatrix();
-    glTranslatef(0, -0.7, -5);
-    DrawBody();
+		glTranslatef(0, -0.7, -5);
+		DrawBody();
     glPopMatrix();
     
     //Wings
     glPushMatrix();
-    DrawWing();
+		DrawWing();
     glPopMatrix();
     
     
     //Left Bomb
     glPushMatrix();
-    glScaled(0.75, 0.75, 0.75);
-    glTranslatef(-8, -3.5, -5);
+		glScaled(0.75, 0.75, 0.75);
+		glTranslatef(-8, -3.5, -5);
     
-    glPushMatrix();
-    glTranslatef(0, 4, 4.5);
-    DrawCylinder();
-    glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0, 4, 4.5);
+			DrawCylinder();
+		glPopMatrix();
     
-    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    drawShell1();
+		glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+		drawShell1();
     glPopMatrix();
     
     //Left 2 Bomb
     glPushMatrix();
-    glScaled(0.65, 0.65, 0.65);
-    glTranslatef(-16, -3.7, -5);
-    glPushMatrix();
-    glTranslatef(0, 4, 4.5);
-    DrawCylinder();
+		glScaled(0.65, 0.65, 0.65);
+		glTranslatef(-16, -3.7, -5);
+		glPushMatrix();
+			glTranslatef(0, 4, 4.5);
+			DrawCylinder();
+		glPopMatrix();
+		glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+		drawShell2();
     glPopMatrix();
-    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    drawShell2();
-    glPopMatrix();
+
     //Right Bomb
     glPushMatrix();
-    glScaled(0.75, 0.75, 0.75);
-    glTranslatef(8, -3.5, -5);
+		glScaled(0.75, 0.75, 0.75);
+		glTranslatef(8, -3.5, -5);
     
-    glPushMatrix();
-    glTranslatef(0, 4, 4.5);
-    DrawCylinder();
-    glPopMatrix();
+		glPushMatrix();
+			glTranslatef(0, 4, 4.5);
+			DrawCylinder();
+		glPopMatrix();
     
-    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    drawShell3();
+		glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+		drawShell3();
     glPopMatrix();
+
     //Right 2 Bomb
     glPushMatrix();
-    glScaled(0.65, 0.65, 0.65);
-    glTranslatef(16, -3.7, -5);
-    glPushMatrix();
-    glTranslatef(0, 4, 4.5);
-    DrawCylinder();
-    glPopMatrix();
-    glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
-    drawShell4();
+		glScaled(0.65, 0.65, 0.65);
+		glTranslatef(16, -3.7, -5);
+		glPushMatrix();
+			glTranslatef(0, 4, 4.5);
+			DrawCylinder();
+		glPopMatrix();
+		glRotatef(45.0f, 0.0f, 0.0f, 1.0f);
+		drawShell4();
     glPopMatrix();
     //Right Propeller
     glPushMatrix();
-    glTranslatef(-6, 0, 3.0);
-    glRotatef(rspeed_propeller+45, 0, 0, 1);
-    glScaled(1.25, 1.25, 0.75);
-    DrawPropeller();
+		glTranslatef(-6, 0, 3.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_PROPELLER)+45, 0, 0, 1);
+		glScaled(1.25, 1.25, 0.75);
+		DrawPropeller();
     glPopMatrix();
     
     //Right 2 Propeller
     glPushMatrix();
-    glTranslatef(-10, 0, 2.6);
-    glRotatef(rspeed_propeller, 0, 0, 1);
-    glScaled(0.75, 0.75, 0.75);
-    DrawPropeller();
+		glTranslatef(-10, 0, 2.6);
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_PROPELLER), 0, 0, 1);
+		glScaled(0.75, 0.75, 0.75);
+		DrawPropeller();
     glPopMatrix();
     
     //Left Propeller
     glPushMatrix();
-    glTranslatef(6, 0, 3.0);
-    glRotatef(rspeed_propeller, 0, 0, 1);
-    glScaled(1.25, 1.25,  0.75);
-    DrawPropeller();
+		glTranslatef(6, 0, 3.0);
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_PROPELLER), 0, 0, 1);
+		glScaled(1.25, 1.25,  0.75);
+		DrawPropeller();
     glPopMatrix();
     
     //Left Propeller
     glPushMatrix();
-    glTranslatef(10, 0, 2.6);
-    glRotatef(rspeed_propeller+45, 0, 0, 1);
-    glScaled(0.75, 0.75, 0.75);
-    DrawPropeller();
+		glTranslatef(10, 0, 2.6);
+		glRotatef(joint_ui_data->getDOF(Keyframe::EnemyPlane_PROPELLER), 0, 0, 1);
+		glScaled(0.75, 0.75, 0.75);
+		DrawPropeller();
     glPopMatrix();
-    
+	
+
     glPopMatrix();
 }
 
@@ -2200,1095 +2121,9 @@ void drawBall(float r){
 	gluSphere(IDquadric2, r, 16,16);
 }
 
-// PLAYER PARTS
-void drawBody_Player(){
-	glBegin(GL_QUADS);
-	 glPushMatrix();
-      glScalef(3.0, 3.0, 3.0);
-      glTranslatef(3, 4, 5);
-
-      // body
-      glPushMatrix();
-         glScalef(1.0, 1.0, 10.0);
-      glPopMatrix();
-
-      // tail
-      glPushMatrix();
-         glTranslatef(0, 0, -8.5);
-         glScalef(3.0, 0.2, 0.5);
-         glPushMatrix();
-            glRotatef(90, 0, 0, 1);
-         glPopMatrix();
-      glPopMatrix();
-
-      // wing
-      glPushMatrix();
-         glTranslatef(0, 0, 3.0);
-         glScalef(10.0, 0.3, 1.0);
-      glPopMatrix();
-	glEnd();
-}
-
-void drawHead_Player(){
-	glBegin(GL_QUADS);
-	//L1
-		//Left
-		glNormal3f(0.0, -0.624695, -0.780869);
-		glVertex3f(-0.1,  0.0, 0.8);
-		glVertex3f(-0.3,  0.0, 0.8);
-		glVertex3f(-0.25, 0.25, 0.6);
-		glVertex3f(-0.1, 0.25, 0.6);
-		
-		//not possible
-		glNormal3f(0.392534, -0.706562, -0.588802);
-		glVertex3f(-0.3,  0.0, 0.8);
-		glVertex3f(-0.6,  0.0, 0.6);
-		glVertex3f(-0.45, 0.25, 0.4);
-		glVertex3f(-0.25, 0.25, 0.6);
-		
-		glNormal3f(0.766402, -0.613121, -0.1916);
-		glVertex3f(-0.6,  0.0, 0.6);
-		glVertex3f(-0.7,  0.0, 0.2);
-		glVertex3f(-0.5, 0.25, 0.2);
-		glVertex3f(-0.45, 0.25, 0.4);
-		
-		glNormal3f(0.780869, -0.624695, 0.0);
-		glVertex3f(-0.7,  0.0, 0.2);
-		glVertex3f(-0.7,  0.0, -0.2);
-		glVertex3f(-0.5, 0.25, -0.2);
-		glVertex3f(-0.5, 0.25, 0.2);
-		
-		//same
-		glNormal3f(0.780869, -0.624695, 0.0);
-		glVertex3f(-0.7,  0.0, 0.2);
-		glVertex3f(-0.7,  0.0, -0.2);
-		glVertex3f(-0.5, 0.25, -0.2);
-		glVertex3f(-0.5, 0.25, 0.2);
-		glVertex3f(-0.7,  0.0, 0.2);
-		
-		//not possible
-		glNormal3f(0.680414, -0.272166, 0.680414);
-		glVertex3f(-0.7,  0.0, -0.2);
-		glVertex3f(-0.5,  0.0, -0.4);
-		glVertex3f(-0.4, 0.25, -0.4);
-		glVertex3f(-0.5, 0.25, -0.2);
-		
-		//not possible
-		glNormal3f(0.238095, -0.190476, 0.952381);
-		glVertex3f(-0.5,  0.0, -0.4);
-		glVertex3f(-0.1,  0.0, -0.5);
-		glVertex3f(-0.1, 0.25, -0.45);
-		glVertex3f(-0.4, 0.25, -0.4);
-		
-		//Back
-		glNormal3f(0.0, -0.196116, 0.980581);
-		glVertex3f(-0.1,  0.0, -0.5);
-		glVertex3f( 0.1,  0.0, -0.5);
-		glVertex3f( 0.1, 0.25, -0.45);
-		glVertex3f(-0.1, 0.25, -0.45);
-		
-		//Right
-		//not possible
-		glNormal3f(-0.241402, -0.0965609, 0.965609);
-		glVertex3f(0.1,  0.0, -0.5);
-		glVertex3f(0.5,  0.0, -0.4);
-		glVertex3f(0.4, 0.25, -0.4);
-		glVertex3f(0.1, 0.25, -0.45);
-		
-		//not possible
-		glNormal3f(-0.615457, -0.492366, 0.615457);
-		glVertex3f(0.5,  0.0, -0.4);
-		glVertex3f(0.7,  0.0, -0.2);
-		glVertex3f(0.5, 0.25, -0.2);
-		glVertex3f(0.4, 0.25, -0.4);
-		
-		
-		glNormal3f(-0.780869, -0.624695, 0.0);
-		glVertex3f(0.7,  0.0, -0.2);
-		glVertex3f(0.7,  0.0, 0.2);
-		glVertex3f(0.5, 0.25, 0.2);
-		glVertex3f(0.5, 0.25, -0.2);
-		
-		//same
-		glNormal3f(-0.780869, -0.624695, 0.0);
-		glVertex3f(0.7,  0.0, -0.2);
-		glVertex3f(0.7,  0.0, 0.2);
-		glVertex3f(0.5, 0.25, 0.2);
-		glVertex3f(0.5, 0.25, -0.2);
-
-		glNormal3f(-0.766402, -0.613121, -0.1916);
-		glVertex3f(0.7,  0.0, 0.2);
-		glVertex3f(0.6,  0.0, 0.6);
-		glVertex3f(0.45, 0.25, 0.4);
-		glVertex3f(0.5, 0.25, 0.2);
-		
-		//not possible
-		glNormal3f(-0.438108, -0.613351, -0.657162);
-		glVertex3f(0.6,  0.0, 0.6);
-		glVertex3f(0.3,  0.0, 0.8);
-		glVertex3f(0.25, 0.25, 0.6);
-		glVertex3f(0.45, 0.25, 0.4);
-		
-		glNormal3f(0.0, -0.624695, -0.780869);
-		glVertex3f(0.3,  0.0, 0.8);
-		glVertex3f(0.1,  0.0, 0.8);
-		glVertex3f(0.1, 0.25, 0.6);
-		glVertex3f(0.25, 0.25, 0.6);
-		
-		//Front
-		glNormal3f(0.0, -0.624695, -0.780869);
-		glVertex3f(0.1,  0.0, 0.8);
-		glVertex3f(-0.1,  0.0, 0.8);
-		glVertex3f(-0.1, 0.25, 0.6);
-		glVertex3f(0.1, 0.25, 0.6);
-	//L2
-		//Right
-		glNormal3f(0.0, 0.874157, 0.485643);
-		glVertex3f(0.1, 0.25, 0.6);
-		glVertex3f(0.25, 0.25, 0.6);
-		glVertex3f(0.25, 1.0/3.0, 0.45);
-		glVertex3f(0.2, 1.0/3.0, 0.45);
-		
-		//not possible
-		glNormal3f(0.237815, 0.941747, 0.237815);
-		glVertex3f(0.25, 0.25, 0.6);
-		glVertex3f(0.45, 0.25, 0.4);
-		glVertex3f(0.32, 1.0/3.0, 0.2);
-		glVertex3f(0.25, 1.0/3.0, 0.45);
-		
-		//not possible
-		glNormal3f(0.352847, 0.931514, 0.0882116);
-		glVertex3f(0.45, 0.25, 0.4);
-		glVertex3f(0.5, 0.25, 0.2);
-		glVertex3f(0.33, 1.0/3.0, 0.0);
-		glVertex3f(0.32, 1.0/3.0, 0.2);
-		
-		glNormal3f(0.440157, 0.897921, 0.0);
-		glVertex3f(0.5, 0.25, 0.2);
-		glVertex3f(0.5, 0.25, -0.2);
-		glVertex3f(0.33, 1.0/3.0, -0.2);
-		glVertex3f(0.33, 1.0/3.0, 0.0);
-		
-		//not possible
-		glNormal3f(0.460796, 0.857079, -0.230397);
-		glVertex3f(0.5, 0.25, -0.2);
-		glVertex3f(0.4, 0.25, -0.4);
-		glVertex3f(0.32, 1.0/3.0, -0.25);
-		glVertex3f(0.33, 1.0/3.0, -0.2);
-		
-		//not possible
-		glNormal3f(0.0920575, 0.828517, -0.552345);
-		glVertex3f(0.4, 0.25, -0.4);
-		glVertex3f(0.1, 0.25, -0.45);
-		glVertex3f(0.25, 1.0/3.0, -0.3);
-		glVertex3f(0.32, 1.0/3.0, -0.25);
-		
-		//Back
-		glNormal3f(0.0, 0.874157, -0.485644);
-		glVertex3f(0.1, 0.25, -0.45);
-		glVertex3f(-0.1, 0.25, -0.45);
-		glVertex3f(-0.25, 1.0/3.0, -0.3);
-		glVertex3f(0.25, 1.0/3.0, -0.3);
-		
-		//Left
-		//not possible
-		glNormal3f(-0.0755288, 0.888218, -0.453172);
-		glVertex3f(-0.1, 0.25, -0.45);
-		glVertex3f(-0.4, 0.25, -0.4);
-		glVertex3f(-0.32, 1.0/3.0, -0.25);
-		glVertex3f(-0.25, 1.0/3.0, -0.3);
-		
-		//not possible
-		glNormal3f(-0.429871, 0.876935, -0.214935);
-		glVertex3f(-0.4, 0.25, -0.4);
-		glVertex3f(-0.5, 0.25, -0.2);
-		glVertex3f(-0.33, 1.0/3.0, -0.2);
-		glVertex3f(-0.32, 1.0/3.0, -0.25);
-		
-		glNormal3f(-0.440157, 0.897921, 0.0);
-		glVertex3f(-0.5, 0.25, -0.2);
-		glVertex3f(-0.5, 0.25, 0.2);
-		glVertex3f(-0.33, 1.0/3.0, 0.0);
-		glVertex3f(-0.33, 1.0/3.0, -0.2);
-		
-		//not possible
-		glNormal3f(-0.417826, 0.902502, 0.104456);
-		glVertex3f(-0.5, 0.25, 0.2);
-		glVertex3f(-0.45, 0.25, 0.4);
-		glVertex3f(-0.32, 1.0/3.0, 0.2);
-		glVertex3f(-0.33, 1.0/3.0, 0.0);
-		
-		//not possibe
-		glNormal3f(-0.436853, 0.786333, 0.436853);
-		glVertex3f(-0.45, 0.25, 0.4);
-		glVertex3f(-0.25, 0.25, 0.6);
-		glVertex3f(-0.25, 1.0/3.0, 0.45);
-		glVertex3f(-0.32, 1.0/3.0, 0.2);
-		
-		glNormal3f(0.0, 0.874157, 0.485643);
-		glVertex3f(-0.25, 0.25, 0.6);
-		glVertex3f(-0.1, 0.25, 0.6);
-		glVertex3f(-0.1, 1.0/3.0, 0.45);
-		glVertex3f(-0.25, 1.0/3.0, 0.45);
-		
-		//Front
-		glNormal3f(0.0, 0.874157, 0.485644);
-		glVertex3f(-0.1, 0.25, 0.6);
-		glVertex3f( 0.1, 0.25, 0.6);
-		glVertex3f( 0.1, 1.0/3.0, 0.45);
-		glVertex3f(-0.1, 1.0/3.0, 0.45);
-	
-	//Top
-		glNormal3f(0,1,0);
-		glVertex3f(-0.1, 1.0/3.0, 0.45);
-		glVertex3f( 0.1, 1.0/3.0, 0.45);
-		glVertex3f(0.25, 1.0/3.0, 0.45);
-		glVertex3f(-0.25, 1.0/3.0, 0.45);
-		
-		glNormal3f(0,1,0);
-		glVertex3f(0.33, 1.0/3.0, 0.0);
-		glVertex3f(0.33, 1.0/3.0, -0.2);
-		glVertex3f(-0.33, 1.0/3.0, -0.2);
-		glVertex3f(-0.33, 1.0/3.0, 0.0);
-		
-		glNormal3f(0,1,0);
-		glVertex3f(0.25, 1.0/3.0, -0.3);
-		glVertex3f(-0.25, 1.0/3.0, -0.3);
-		glVertex3f(-0.32, 1.0/3.0, -0.25);
-		glVertex3f(0.32, 1.0/3.0, -0.25);
-		
-		glNormal3f(0,1,0);
-		glVertex3f(-0.32, 1.0/3.0, 0.2);
-		glVertex3f(0.32, 1.0/3.0, 0.2);
-		glVertex3f(-0.1, 1.0/3.0, 0.45);
-		glVertex3f(-0.1, 1.0/3.0, 0.45);
-	glEnd();
-}
-
-void drawTrack_Player(){
-	glPushMatrix();
-		//Upside
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.25, 0.02, 2.3);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.15);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front lower
-		glTranslatef(0, 0, 0.05);
-		glRotatef(75, 1, 0, 0);
-		glTranslatef(0, 0, 0.125);
-		drawCube(0.25, 0.02, 0.25);
-		
-		//Front bottom
-		glTranslatef(0, 0, 0.125);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Bottom
-		glTranslatef(0, 0, 0.05);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 1.0);
-		drawCube(0.25, 0.02, 2.0);
-		
-		//Back bottom
-		glTranslatef(0, 0, 1.0);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Back lower
-		glTranslatef(0, 0, 0.05);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.125);
-		drawCube(0.25, 0.02, 0.25);
-		
-		//Back mid
-		glTranslatef(0, 0, 0.125);
-		glRotatef(75, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Back Up
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-	glPopMatrix();
-}
-
-void drawFender_Player(){
-	glPushMatrix();
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.25, 0.02, 2.4);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.2);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-	glPopMatrix();
-}
-
-void drawGunshild_Player(){
-	
-	glBegin(GL_QUADS);
-	
-		glVertex3f(-0.3, -0.05, 0.05);
-		glVertex3f( 0.0, -0.1, 0.1);
-		glVertex3f( 0.0,  0.1, 0.1);
-		glVertex3f(-0.3,  0.05, 0.05);
-		
-		// draw back leg
-		
-		glVertex3f(-0.3, 0.05, -0.05);
-		glVertex3f( 0.0,  0.1, -0.1);
-		glVertex3f( 0.0, -0.1, -0.1);
-		glVertex3f(-0.3, -0.05, -0.05);
-		//left
-		glVertex3f(-0.3, -0.05, 0.05);
-		glVertex3f(-0.3,  0.05, 0.05);
-		glVertex3f(-0.3,  0.05, -0.05);
-		glVertex3f(-0.3, -0.05, -0.05);
-		
-		//right
-		glVertex3f( 0.0, -0.1, -0.1);
-		glVertex3f( 0.0,  0.1, -0.1);
-		glVertex3f( 0.0,  0.1, 0.1);
-		glVertex3f( 0.0, -0.1, 0.1);
-		
-		// draw up leg
-		glVertex3f( 0.0,  0.1, -0.1);
-		glVertex3f( -0.3,  0.05, -0.05);
-		glVertex3f( -0.3,  0.05, 0.05);
-		glVertex3f(-0.0,  0.1, 0.1);
-
-		// draw bottom leg
-		glVertex3f(-0.0,  -0.1, 0.1);
-		glVertex3f(-0.0,  -0.1, -0.1);
-		glVertex3f( -0.3, -0.05, -0.05);
-		glVertex3f( -0.3, -0.05, 0.05);
-	glEnd();
-}
-
-// E PARTS
-void drawBody_E(){
-	glBegin(GL_QUADS);
-		// draw front upper face
-		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
-		glVertex3f( 0.5,  0.0, 0.9);
-		glVertex3f(-0.5,  0.0, 0.9);
-		glVertex3f(-0.5, -1.0/3.0, 1.3);
-		glVertex3f( 0.5, -1.0/3.0, 1.3);
-		
-		// draw front lower face
-		glNormal3f(0.0, -0.7071067811865475, -0.7071067811865475);
-		glVertex3f( 0.5, -1.0/3.0, 1.3);
-		glVertex3f(-0.5, -1.0/3.0, 1.3);
-		glVertex3f(-0.5, -1.0/2.0, 1.15);
-		glVertex3f( 0.5, -1.0/2.0, 1.15);
-		
-		// draw back face
-		glNormal3f(-0.9805806756909201, -0.19611613513818402, 0.0);
-		glVertex3f( 0.5, -1.0/2.0, -0.9);
-		glVertex3f( 0.5,  0.0, -1.1);
-		glVertex3f(-0.5,  0.0, -1.1);
-		glVertex3f(-0.5, -1.0/2.0, -0.9);
-
-		// draw right face
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.5, -1.0/2.0, -0.9);
-		glVertex3f( 0.5, -1.0/2.0,  1.15);
-		glVertex3f( 0.5,  0.0,  0.9);
-		glVertex3f( 0.5,  0.0, -1.1);
-		
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.5, -1.0/2.0,  1.15);
-		glVertex3f( 0.5,  0.0,  0.9);
-		glVertex3f( 0.5, -1.0/3.0,  1.3);
-		glVertex3f( 0.5, -1.0/3.0,  1.3);
-		
-		// draw left face
-		glNormal3f( -1.0,  0.0,  0.0);
-		glVertex3f( -0.5, -1.0/2.0, -0.9);
-		glVertex3f( -0.5, -1.0/2.0,  1.15);
-		glVertex3f( -0.5,  0.0,  0.9);
-		glVertex3f( -0.5,  0.0, -1.1);
-		
-		glNormal3f( -1.0,  0.0,  0.0);
-		glVertex3f( -0.5, -1.0/2.0,  1.15);
-		glVertex3f( -0.5,  0.0,  0.9);
-		glVertex3f( -0.5, -1.0/3.0,  1.3);
-		glVertex3f( -0.5, -1.0/3.0,  1.3);
-
-
-		// draw top
-		glNormal3f(  0.0, 1.0,  0.0);
-		glVertex3f(  0.5, 0.0, -1.1);
-		glVertex3f( -0.5, 0.0, -1.1);
-		glVertex3f( -0.5, 0.0,  0.9);
-		glVertex3f(  0.5, 0.0,  0.9);
-
-		// draw bottom
-		glNormal3f(  0.0, -1.0,  0.0);
-		glVertex3f(  0.5, -1.0/3.0,  1.15);
-		glVertex3f( -0.5, -1.0/3.0,  1.15);
-		glVertex3f( -0.5, -1.0/3.0, -0.9);
-		glVertex3f(  0.5, -1.0/3.0, -0.9);
-	glEnd();
-}
-
-void drawHead_E(){
-	glBegin(GL_QUADS);
-		//Left front
-		glNormal3f(-0.7001400420140049, 0.140028008402801, 0.7001400420140049);
-		glVertex3f(-0.25, 0.0, 0.5);
-		glVertex3f(-0.4,  0.0, -0.15);
-		glVertex3f(-0.38, 1.0/3.0, -0.13);
-		glVertex3f(-0.23, 1.0/3.0, 0.48);
-		
-		//Left back
-		glNormal3f(-0.7001400420140049, 0.140028008402801, -0.7001400420140049);
-		glVertex3f(-0.4,  0.0, -0.15);
-		glVertex3f(-0.35, 0.0, -0.5);
-		glVertex3f(-0.33, 1.0/3.0, -0.48);
-		glVertex3f(-0.38, 1.0/3.0, -0.13);
-		
-		//Back
-		glNormal3f(0, 0, -1);
-		glVertex3f(-0.35, 0.0, -0.5);
-		glVertex3f(0.35, 0.0, -0.5);
-		glVertex3f(0.33, 1.0/3.0, -0.48);
-		glVertex3f(-0.33, 1.0/3.0, -0.48);
-		
-		//Right back
-		glNormal3f(0.7001400420140049, 0.140028008402801, -0.7001400420140049);
-		glVertex3f(0.35, 0.0, -0.5);
-		glVertex3f(0.4, 0.0, -0.15);
-		glVertex3f(0.38, 1.0/3.0, -0.13);
-		glVertex3f(0.33, 1.0/3.0, -0.48);
-		
-		//Right front
-		glNormal3f(0.7001400420140049, 0.140028008402801, 0.7001400420140049);
-		glVertex3f(0.4, 0.0, -0.15);
-		glVertex3f(0.25, 0.0, 0.5);
-		glVertex3f(0.22, 1.0/3.0, 0.48);
-		glVertex3f(0.38, 1.0/3.0, -0.13);
-		
-		//Front
-		glNormal3f(0, 0, 1);
-		glVertex3f(0.25, 0.0, 0.5);
-		glVertex3f(-0.25, 0.0, 0.5);
-		glVertex3f(-0.22, 1.0/3.0, 0.48);
-		glVertex3f(0.22, 1.0/3.0, 0.48);
-		
-		//Up
-		glNormal3f(0, 1, 0);
-		glVertex3f(-0.22, 1.0/3.0, 0.48);
-		glVertex3f(0.22, 1.0/3.0, 0.48);
-		glVertex3f(0.33, 1.0/3.0, -0.48);
-		glVertex3f(-0.33, 1.0/3.0, -0.48);
-		
-		glNormal3f(0, 1, 0);
-		glVertex3f(0.38, 1.0/3.0, -0.13);
-		glVertex3f(-0.38, 1.0/3.0, -0.13);
-		glVertex3f(-0.33, 1.0/3.0, -0.48);
-		glVertex3f(0.33, 1.0/3.0, -0.48);
-	glEnd();
-}
-
-void drawFender_E(){
-	glPushMatrix();
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.25, 0.02, 2.4);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.2);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-	glPopMatrix();
-}
-
-
-// TD PARTS
-void drawBody_TD(){
-	glBegin(GL_QUADS);
-		// draw front upper face
-		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
-		glVertex3f( 0.5,  0.0, 0.9);
-		glVertex3f(-0.5,  0.0, 0.9);
-		glVertex3f(-0.5, -1.0/3.0, 1.3);
-		glVertex3f( 0.5, -1.0/3.0, 1.3);
-		
-		// draw front lower face
-		glNormal3f(0.0, -0.7071067811865475, -0.7071067811865475);
-		glVertex3f( 0.5, -1.0/3.0, 1.3);
-		glVertex3f(-0.5, -1.0/3.0, 1.3);
-		glVertex3f(-0.5, -1.0/2.0, 1.15);
-		glVertex3f( 0.5, -1.0/2.0, 1.15);
-		
-		// draw back face
-		glNormal3f(-0.9805806756909201, -0.19611613513818402, 0.0);
-		glVertex3f( 0.5, -1.0/2.0, -0.9);
-		glVertex3f( 0.5,  0.0, -1.1);
-		glVertex3f(-0.5,  0.0, -1.1);
-		glVertex3f(-0.5, -1.0/2.0, -0.9);
-
-		// draw right face
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.5, -1.0/2.0, -0.9);
-		glVertex3f( 0.5, -1.0/2.0,  1.15);
-		glVertex3f( 0.5,  0.0,  0.9);
-		glVertex3f( 0.5,  0.0, -1.1);
-		
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.5, -1.0/2.0,  1.15);
-		glVertex3f( 0.5,  0.0,  0.9);
-		glVertex3f( 0.5, -1.0/3.0,  1.3);
-		glVertex3f( 0.5, -1.0/3.0,  1.3);
-		
-		// draw left face
-		glNormal3f( -1.0,  0.0,  0.0);
-		glVertex3f( -0.5, -1.0/2.0, -0.9);
-		glVertex3f( -0.5, -1.0/2.0,  1.15);
-		glVertex3f( -0.5,  0.0,  0.9);
-		glVertex3f( -0.5,  0.0, -1.1);
-		
-		glNormal3f( -1.0,  0.0,  0.0);
-		glVertex3f( -0.5, -1.0/2.0,  1.15);
-		glVertex3f( -0.5,  0.0,  0.9);
-		glVertex3f( -0.5, -1.0/3.0,  1.3);
-		glVertex3f( -0.5, -1.0/3.0,  1.3);
-
-
-		// draw top
-		glNormal3f(  0.0, 1.0,  0.0);
-		glVertex3f(  0.5, 0.0, -1.1);
-		glVertex3f( -0.5, 0.0, -1.1);
-		glVertex3f( -0.5, 0.0,  0.9);
-		glVertex3f(  0.5, 0.0,  0.9);
-
-		// draw bottom
-		glNormal3f(  0.0, -1.0,  0.0);
-		glVertex3f(  0.5, -1.0/3.0,  1.15);
-		glVertex3f( -0.5, -1.0/3.0,  1.15);
-		glVertex3f( -0.5, -1.0/3.0, -0.9);
-		glVertex3f(  0.5, -1.0/3.0, -0.9);
-	glEnd();
-}
-
-void drawHead_TD(){
-	glBegin(GL_QUADS);
-		// draw front face
-		glNormal3f(0.0, 0.500444341617353, 0.8657687109980206);
-		glVertex3f(-0.5,  0.0, 0.6);
-		glVertex3f( 0.5,  0.0, 0.6);
-		glVertex3f( 0.35,  0.35, 0.1);
-		glVertex3f(-0.35,  0.35, 0.1);
-
-		// draw back face
-		glNormal3f(0.0, 0.19611613513818402, -0.9805806756909201);
-		glVertex3f(-0.5,  0.0, -0.6);
-		glVertex3f( 0.5,  0.0, -0.6);
-		glVertex3f( 0.35,  0.35, -0.5);
-		glVertex3f(-0.35,  0.35, -0.5);
-
-		// draw left face
-		glNormal3f(-0.9805806756909201, 0.19611613513818402, 0.0);
-		glVertex3f(-0.5,  0.0, 0.6);
-		glVertex3f(-0.35,  0.35, 0.1);
-		glVertex3f(-0.35,  0.35, -0.5);
-		glVertex3f(-0.5,  0.0, -0.6);
-
-		// draw right face
-		glNormal3f(0.9805806756909201, 0.19611613513818402, 0.0);
-		glVertex3f(0.5,  0.0, 0.6);
-		glVertex3f(0.35,  0.35, 0.1);
-		glVertex3f(0.35,  0.35, -0.5);
-		glVertex3f(0.5,  0.0, -0.6);
-
-		// draw top
-		glNormal3f(0, 1, 0);
-		glVertex3f(-0.35,  0.35, 0.1);
-		glVertex3f( 0.35,  0.35, 0.1);
-		glVertex3f( 0.35,  0.35, -0.5);
-		glVertex3f(-0.35,  0.35, -0.5);
-		
-
-		// draw bottom
-		glNormal3f(0, -1, 0);
-		glVertex3f(-0.5,  0.0, 0.6);
-		glVertex3f( 0.5,  0.0, 0.6);
-		glVertex3f( 0.5,  0.0, -0.6);
-		glVertex3f(-0.5,  0.0, -0.6);
-	glEnd();
-}
-
-void drawFender_TD(){
-	glPushMatrix();
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.25, 0.02, 2.4);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.2);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-	glPopMatrix();
-}
-
-void drawGunshild_TD(){
-	glBegin(GL_QUADS);
-		// draw front face
-		glNormal3f(0.0, 0.0, 1.0);
-		glVertex3f(-0.15,  -0.10, 0.5);
-		glVertex3f( 0.15,  -0.10, 0.5);
-		glVertex3f( 0.15,  0.14, 0.5);
-		glVertex3f(-0.15,  0.14, 0.5);
-
-		// draw back face
-		glNormal3f(0.0, 0.0, -1.0);
-		glVertex3f(-0.175,  -0.145, 0.0);
-		glVertex3f( 0.175,  -0.145, 0.0);
-		glVertex3f( 0.175,  0.145, 0.0);
-		glVertex3f(-0.175,  0.145, 0.0);
-
-		// draw left face
-		glNormal3f(-1.0, 0.0, 0.0);
-		glVertex3f(-0.175,  -0.145, 0.0);
-		glVertex3f(-0.15,  -0.10, 0.5);
-		glVertex3f(-0.15,  0.14, 0.5);
-		glVertex3f(-0.175,  0.145, 0.0);
-
-		// draw right face
-		glNormal3f(1.0, 0.0, 0.0);
-		glVertex3f(0.175,  -0.145, 0.0);
-		glVertex3f(0.15,  -0.10, 0.5);
-		glVertex3f(0.15,  0.14, 0.5);
-		glVertex3f(0.175,  0.145, 0.0);
-
-		// draw top
-		glNormal3f(0.0, 1.0, 0.0);
-		glVertex3f( 0.175,  0.145, 0.0);
-		glVertex3f(-0.175,  0.145, 0.0);
-		glVertex3f(-0.15,  0.14, 0.5);
-		glVertex3f( 0.15,  0.14, 0.5);
-		
-		// draw bottom
-		glNormal3f(0.0, -1.0, 0.0);
-		glVertex3f(-0.175,  -0.145, 0.0);
-		glVertex3f( 0.175,  -0.145, 0.0);
-		glVertex3f( 0.15,  -0.10, 0.5);
-		glVertex3f(-0.15,  -0.10, 0.5);
-	glEnd();
-}
-
-void drawTrack_TD(){
-	glPushMatrix();
-		//Upside
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.25, 0.02, 2.3);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.15);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front lower
-		glTranslatef(0, 0, 0.05);
-		glRotatef(75, 1, 0, 0);
-		glTranslatef(0, 0, 0.125);
-		drawCube(0.25, 0.02, 0.25);
-		
-		//Front bottom
-		glTranslatef(0, 0, 0.125);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Bottom
-		glTranslatef(0, 0, 0.05);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 1.0);
-		drawCube(0.25, 0.02, 2.0);
-		
-		//Back bottom
-		glTranslatef(0, 0, 1.0);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Back lower
-		glTranslatef(0, 0, 0.05);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.125);
-		drawCube(0.25, 0.02, 0.25);
-		
-		//Back mid
-		glTranslatef(0, 0, 0.125);
-		glRotatef(75, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Back Up
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-	glPopMatrix();
-}
-
-// EnemyPlane PART
-void drawBody_EnemyPlane(){
-	glBegin(GL_QUADS);
-		// draw front upper face
-		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
-		glVertex3f( 0.75,  0.0, 1.5);
-		glVertex3f(-0.75,  0.0, 1.5);
-		glVertex3f(-0.75, -1.0/2.0, 1.9);
-		glVertex3f( 0.75, -1.0/2.0, 1.9);
-		
-		// draw front lower face
-		glNormal3f(0.0, -0.7071067811865475, 0.7071067811865475);
-		glVertex3f(-0.75, -1.0/2.0, 1.9);
-		glVertex3f( 0.75, -1.0/2.0, 1.9);
-		glVertex3f( 0.75, -0.8, 1.7);
-		glVertex3f(-0.75, -0.8, 1.7);
-		
-		// draw back upper face
-		glNormal3f(0.0, 0.7432941462471663, -0.6689647316224496);
-		glVertex3f( 0.75,  0.0, -1.6);
-		glVertex3f(-0.75,  0.0, -1.6);
-		glVertex3f(-0.75, -1.0/2.0, -1.7);
-		glVertex3f( 0.75, -1.0/2.0, -1.7);
-		
-		// draw back lower face
-		glNormal3f(0.0, -0.7071067811865475, -0.7071067811865475);
-		glVertex3f(-0.75, -1.0/2.0, -1.7);
-		glVertex3f( 0.75, -1.0/2.0, -1.7);
-		glVertex3f( 0.75, -0.8, -1.6);
-		glVertex3f(-0.75, -0.8, -1.6);
-
-		// draw right face
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.75,  0.0, -1.6);
-		glVertex3f( 0.75, -1.0/2.0, -1.7);
-		glVertex3f( 0.75, -1.0/2.0, 1.9);
-		glVertex3f( 0.75,  0.0, 1.5);
-		
-		glNormal3f( 1.0,  0.0,  0.0);
-		glVertex3f( 0.75, -0.8, 1.7);
-		glVertex3f( 0.75, -1.0/2.0, 1.9);
-		glVertex3f( 0.75, -1.0/2.0, -1.7);
-		glVertex3f( 0.75, -0.8, -1.6);
-		// draw left face
-		glNormal3f( -1.0,  0.0,  0.0);
-		glVertex3f( -0.75,  0.0, -1.6);
-		glVertex3f( -0.75, -1.0/2.0, -1.7);
-		glVertex3f( -0.75, -1.0/2.0, 1.9);
-		glVertex3f( -0.75,  0.0, 1.5);
-		
-		glNormal3f( -1.0,  0.0,  0.0);
-		glVertex3f( -0.75, -0.8, 1.7);
-		glVertex3f( -0.75, -1.0/2.0, 1.9);
-		glVertex3f( -0.75, -1.0/2.0, -1.7);
-		glVertex3f( -0.75, -0.8, -1.6);
-
-		// draw top
-		glNormal3f(  0.0, 1.0,  0.0);
-		glVertex3f( 0.75,  0.0, 1.5);
-		glVertex3f(-0.75,  0.0, 1.5);
-		glVertex3f(-0.75,  0.0, -1.6);
-		glVertex3f( 0.75,  0.0, -1.6);
-		
-		// draw bottom
-		glNormal3f(  0.0, -1.0,  0.0);
-		glVertex3f( 0.75, -0.8, 1.7);
-		glVertex3f(-0.75, -0.8, 1.7);
-		glVertex3f(-0.75, -0.8, -1.6);
-		glVertex3f( 0.75, -0.8, -1.6);
-	glEnd();
-}
-
-void drawHead_EnemyPlane(){
-	glBegin(GL_QUADS);
-		// draw front upper face
-		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
-		glVertex3f( 0.60, 0.6, 0.8);
-		glVertex3f(-0.60, 0.6, 0.8);
-		glVertex3f(-0.65, 0.4, 1.0);
-		glVertex3f( 0.65, 0.4, 1.0);
-		
-		// draw front mid face
-		glNormal3f(0.0, 0.0, 1.0);
-		glVertex3f(-0.65, 0.4, 1.0);
-		glVertex3f( 0.65, 0.4, 1.0);
-		glVertex3f( 0.70, 0.2, 1.0);
-		glVertex3f(-0.70, 0.2, 1.0);
-		
-		// draw front lower face
-		glNormal3f(0.0, -0.7432941462471663, 0.6689647316224496);
-		glVertex3f(-0.70, 0.2, 1.0);
-		glVertex3f( 0.70, 0.2, 1.0);
-		glVertex3f( 0.75, 0.0, 0.8);
-		glVertex3f(-0.75, 0.0, 0.8);
-		
-		// draw back face
-		glNormal3f(0.0, 0.7432941462471663, -0.6689647316224496);
-		glVertex3f(-0.60,  0.6, -0.8);
-		glVertex3f( 0.60,  0.6, -0.8);
-		glVertex3f( 0.75,  0.0, -1.0);
-		glVertex3f(-0.75,  0.0, -1.0);
-
-		// draw left face
-		glNormal3f( -0.6689647316224496, 0.7432941462471663, 0.0);
-		glVertex3f( -0.60, 0.6, 0.8);
-		glVertex3f( -0.65, 0.4, 1.0);
-		glVertex3f( -0.70, 0.2, 1.0);
-		glVertex3f( -0.75, 0.0, 0.8);
-		
-		glNormal3f( -0.6689647316224496, 0.7432941462471663, 0.0);
-		glVertex3f( -0.60, 0.6, 0.8);
-		glVertex3f( -0.60, 0.6, -0.8);
-		glVertex3f( -0.75, 0.0, -1.0);
-		glVertex3f( -0.75, 0.0, 0.8);
-
-		// draw right face
-		glNormal3f( 0.6689647316224496, 0.7432941462471663, 0.0);
-		glVertex3f( 0.60, 0.6, 0.8);
-		glVertex3f( 0.65, 0.4, 1.0);
-		glVertex3f( 0.70, 0.2, 1.0);
-		glVertex3f( 0.75, 0.0, 0.8);
-		
-		glNormal3f( 0.6689647316224496, 0.7432941462471663, 0.0);
-		glVertex3f( 0.60, 0.6, 0.8);
-		glVertex3f( 0.60, 0.6, -0.8);
-		glVertex3f( 0.75, 0.0, -1.0);
-		glVertex3f( 0.75, 0.0, 0.8);
-		
-		// draw top
-		glNormal3f(0, 1, 0);
-		glVertex3f( 0.60, 0.6, 0.8);
-		glVertex3f(-0.60, 0.6, 0.8);
-		glVertex3f(-0.60, 0.6, -0.8);
-		glVertex3f( 0.60, 0.6, -0.8);
-
-		// draw bottom
-		glNormal3f(0, -1, 0);
-		glVertex3f( 0.75, 0.0, -1.0);
-		glVertex3f(-0.75, 0.0, -1.0);
-		glVertex3f(-0.75, 0.0, 0.8);
-		glVertex3f( 0.75, 0.0, 0.8);
-	glEnd();
-}
-
-void drawFender_EnemyPlane(){
-	glPushMatrix();
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.45, 0.02, 2.8);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.4);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.25, 0.02, 0.1);
-	glPopMatrix();
-}
-
-void drawTrack_EnemyPlane(){
-	glPushMatrix();
-		//Upside
-		glTranslatef(0.13, 0, 0.2);
-		drawCube(0.5, 0.02, 3.3);
-		
-		//Front Up
-		glTranslatef(0, 0, 1.65);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.5, 0.02, 0.1);
-		
-		//Front mid
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.5, 0.02, 0.1);
-		
-		//Front lower
-		glTranslatef(0, 0, 0.05);
-		glRotatef(75, 1, 0, 0);
-		glTranslatef(0, 0, 0.125);
-		drawCube(0.5, 0.02, 0.25);
-		
-		//Front bottom
-		glTranslatef(0, 0, 0.125);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.5, 0.02, 0.1);
-		
-		//Bottom
-		glTranslatef(0, 0, 0.05);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 1.5);
-		drawCube(0.5, 0.02, 3);
-		
-		//Back bottom
-		glTranslatef(0, 0, 1.5);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.5, 0.02, 0.1);
-		
-		//Back lower
-		glTranslatef(0, 0, 0.05);
-		glRotatef(22.5, 1, 0, 0);
-		glTranslatef(0, 0, 0.125);
-		drawCube(0.5, 0.02, 0.25);
-		
-		//Back mid
-		glTranslatef(0, 0, 0.125);
-		glRotatef(75, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.5, 0.02, 0.1);
-		
-		//Back Up
-		glTranslatef(0, 0, 0.05);
-		glRotatef(30, 1, 0, 0);
-		glTranslatef(0, 0, 0.05);
-		drawCube(0.5, 0.02, 0.1);
-		
-	glPopMatrix();
-}
-
-void drawGunshild_EnemyPlane(){
-	glBegin(GL_QUADS);
-		// draw front upper face
-		glNormal3f(0.0, 0.7432941462471663, 0.6689647316224496);
-		glVertex3f( 0.3, 0.5, 1);
-		glVertex3f(-0.3, 0.5, 1);
-		glVertex3f(-0.3, 0.4, 1.1);
-		glVertex3f( 0.3, 0.4, 1.1);
-		
-		// draw front mid face
-		glNormal3f(0.0, 0.0, 1.0);
-		glVertex3f(-0.3, 0.4, 1.1);
-		glVertex3f( 0.3, 0.4, 1.1);
-		glVertex3f( 0.3, 0.3, 1.1);
-		glVertex3f(-0.3, 0.3, 1.1);
-		
-		// draw front lower face
-		glNormal3f(0.0, -0.7432941462471663, 0.6689647316224496);
-		glVertex3f(-0.3, 0.3, 1.1);
-		glVertex3f( 0.3, 0.3, 1.1);
-		glVertex3f( 0.3, 0.2, 1);
-		glVertex3f(-0.3, 0.2, 1);
-		
-		// draw up side
-		glNormal3f(0.0, 1.0, 0.0);
-		glVertex3f( 0.3, 0.5, 0.8);
-		glVertex3f(-0.3, 0.5, 0.8);
-		glVertex3f(-0.3, 0.5, 1);
-		glVertex3f( 0.3, 0.5, 1);
-		
-		// draw down side
-		glNormal3f(0.0, -1.0, 0.0);
-		glVertex3f( 0.3, 0.2, 0.8);
-		glVertex3f(-0.3, 0.2, 0.8);
-		glVertex3f(-0.3, 0.2, 1);
-		glVertex3f( 0.3, 0.2, 1);
-		
-		// draw right side
-		glNormal3f( 1.0, 0.0, 0.0);
-		glVertex3f( 0.3, 0.2, 1);
-		glVertex3f( 0.3, 0.3, 1.1);
-		glVertex3f( 0.3, 0.4, 1.1);
-		glVertex3f( 0.3, 0.5, 1);
-		
-		// draw left side
-		glNormal3f(-1.0, 0.0, 0.0);
-		glVertex3f(-0.3, 0.2, 1);
-		glVertex3f(-0.3, 0.3, 1.1);
-		glVertex3f(-0.3, 0.4, 1.1);
-		glVertex3f(-0.3, 0.5, 1);
-	glEnd();
-}
-
-
 
 // COMMON PARTS
 
-void drawcy(float r1, float r2, float length, int num){
-	glPushMatrix();
-		glRotatef(90, 0, 1, 0);
-		IDquadric = gluNewQuadric();
-		gluCylinder(IDquadric,r1,r2,length,num,1);
-		drawCircle(r1,num, 0);
-		glTranslatef(0, 0, length);
-		drawCircle(r2,num, 1);
-	glPopMatrix();
-}
-
-void drawCircle(float r, int num, int is_front){
-    glBegin(GL_POLYGON);
-    if(is_front == 1){
-		glNormal3f(0,0,1);
-	}
-	else{
-		glNormal3f(0,0,-1);
-	}
-    for(int i = 0; i < num; i++)
-    {
-        float theta = 2.0f * 3.1415926f * float(i) / float(num);//get the current angle
-
-        float x = r * cosf(theta);//calculate the x component
-        float y = r * sinf(theta);//calculate the y component
-        glVertex3f(x, y, 0);//output vertex
-
-    }
-    glEnd();
-}
 
 void drawCube(float x, float y, float z){
 	glBegin(GL_QUADS);
@@ -3335,12 +2170,6 @@ void drawCube(float x, float y, float z){
 		glVertex3f(-x / 2.0, -y / 2.0,  z / 2.0);
 	glEnd();
 }
-
-
-
-
-
-
 
 // Handles mouse button pressed / released events
 void mouse(int button, int state, int x, int y)
