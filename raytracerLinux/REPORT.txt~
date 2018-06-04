@@ -1,0 +1,19 @@
+Name: Jiang Ye
+Student ID: 999472976 	CDF id: g3helios
+
+Name: Jinnan Lu
+Student ID: 997698807	CDF id: g2lujinn
+
+	The basic ray-tracer contains three parts to do: 
+	1. the ray casting in file "raytracer.cpp"
+	2. Intersection functions for both sphere and square objects in file "scene_object.cpp"
+	3. Phong shading for a point light source in file "light_source.cpp"
+
+For each pixel of the image, a ray would be casted in fuction render( int width, int height, Point3D eye, Vector3D view, Vector3D up, double fov, char* fileName ) in raytracer. For each ray, its intersection with the square and sphere objects would be culculated by two functions in file scene_object. And the final colour after shadign applied would be culculated by function shade( Ray3d& ray) in file light_source. After all, two images would be generated to show the final looks of two views of camera.
+
+After file is made, it can generate two images "view1.bmp" and "view2.bmp" that is the view at current render type. To change the render type, need to de-comment the output line in file "light_source.cpp". There are totaly three render types supported: 1.scene signature, 2.diffuse and ambient, 3.Phong. Six images that represents three render type in two views had already been generated and involved in the directory. 
+
+Work distribution:
+Jiang Ye: Ray casting, intersection code for ray-sphere and ray-square.
+
+Jinnan Lu: shading, generating required images, report.

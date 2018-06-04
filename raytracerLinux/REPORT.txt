@@ -1,0 +1,28 @@
+﻿Name: Jiang Ye
+Student ID: 999472976         CDF id: g3helios
+
+
+Name: Jinnan Lu
+Student ID: 997698807        CDF id: g2lujinn
+
+
+OS: Linux
+
+
+We have implemented all the TO-DO parts: 
+        1. The ray casting in file "raytracer.cpp".
+        2. Intersection code for ray-sphere and ray-square in "scene_object.cpp".
+        3. Phong shading for a point light source in "light_source.cpp".
+
+
+In raytracer.cpp, the render function would cast a ray for each pixel of the image. Then the two intersect functions in scene_object.cpp would calculate the intersection. Lastly the shade function in light_source.cpp would calculate the colour and apply shading on the images with two different camera angles. 
+
+
+Our code support all three required render types. It defaults in generating all three terms of the phong model. In order to generate other types of rendering, simply uncomment the commented code in the end of light_source.cpp (detailed instruction can be found inside the file). We have generated six sample images covering all three render types, which can be found in the tar file. 
+
+
+Work distribution:
+Jiang Ye: Ray casting, intersection code for ray-sphere and ray-square.
+
+
+Jinnan Lu: Phong model shading, Anti-aliasing, Report.

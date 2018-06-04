@@ -1,100 +1,36 @@
-CSC418 A3
-MINGYE WANG, 999573938, g3nicky
-YIFEI YANG, 999590526, g3yangyl
+﻿CSC418 A3
+Jiang Ye, 999472976, g3helios
+Jinnan Lu, 997698807, g2lujinn
 
-	
-Part B:
-Overall submission:
-C++ files:
-	1. groundmap.cpp
-	2. main.cpp
-	3. vector.cpp
-	
-header files:
-	1. vector.h
-	2. keyframe.h
-	3. groundmap.h
-	4. timer.h
 
-textfile:
-	1. REPORT.txt
-	keyframes.forder:
-		2. keyframes1.txt       
-		3. keyframes2.txt 
-		4. keyframes3.txt 
-		5. keyframes4.txt
-		6. keyframes5.txt
-		7. keyframes6.txt
-		8. keyframes7.txt     
-	(keyframes.txt was used for animation, people can load and press start animation to 
-	watch a small movie. In order to make it easy for editing and modifying, the 
-	keyframe.txt was broke up into 5 pieces, we can change each keyframes(1-5).txt's name 
-	to keyframes.txt and animate them separately. Finally we combine those 5 movies, the 
-	new movie is called "tanks' war")
 
-makefile:
-	Makefile
 
-picture:
-	ground.tga
-	(used as the ground of the battlefield)
-movie file:
-	"tanks' war"
-	
-executable file:
-	tank
-   
-program:
-    This program described a war between one "green" tank and five "enemy“ tanks, we draw
-    6 3D tanks in total, those tanks can move, rotate in any direction and fire to destroy
-    enemy tanks by modified the keyframes. In this program, we design some keyframes, and 
-    make it looks like a battle between the tanks.
-    
-Implement:
-Our keyframe has 88 DOFS
-Tanks:
-	In this program, we design 4 kinds of tanks. First,the "green one" is the player's 
-	tank, it consists of turret, body, gun, track, fender and wheels. Then, the "gray one" are
-	enemy tanks, their structures are different from the "green one", their wheels are 
-	bigger and some of them do not have tracks, we also design a "Boss Tank" which is very
-	powerful. All the tanks can move(along x-axis, y-axis and z-axis) and rotate(around 
-	x-axis, y-axis and z-axis) by modified the degree of freedom, the wheels will also 
-	rotate around the center while tank is moving. The turret of the tank can rotate from 
-	-360 to 360, and the gun can raise and reduce to hit enemy.
+Run using: "make: ./part2". To start the animation, please first click on "Load Keyframes From File", then click on "Start / Stop Animation".
 
-walls:
-	We implement four red walls, each wall is cuboid, and they consist the battlefield
 
-shell:
-	The shell is also a cuboid, the colour of shell is white, when the shell hit something,
-	the spark will appear
+Note: The video "Air battle.mp4" is the recorded animation of our work(Please use VLC to run it if you are using CDF machine)
 
-ground:
-	We map a matel ground on the battle field.
-	http://stackoverflow.com/questions/12518111/how-to-load-a-bmp-on-glut-to-use-it-as-a-texture
-	our function GroundMap::LoadTexture(char * source) is form the link above.
-	we use it to load the image for future use.
-	
-spark:
-	The spark was consist of many tiny cube, when the shell hit something, those small 
-	cubes will move along their own way, looks like the explosion, the colour of the cube 
-	is orange 
 
-light:
-	There exists a light on the battlefield, the colour of the light is wight, people can
-	find the shadow of the tank, wall and shell.     
-	
-Role of each member:
-MINGYE WANG:
-1. draw some parts of the 3D tank
-2. Map the picture on the battlefield
-3. implement the light on the battlefield 
-4. Record and combine the movie file
-5. Report
+Files used for part 2:
+    Programming part:
+        main.cpp
+        vector.cpp
+        groundmap.cpp
+        air.tga
+        Makefile
+        keyframes.txt
+    Movie part:
+        Air battle.mp4
+    Executable:
+        part2
 
-YIFEIYANG:
-1. draw some parts of the 3D tank
-2. implement the battlefield(walls and ground)
-3. design all the keyframes
-4. implement the spark and shell
-5. debug                                                
+
+Our part B is an animation of an aircraft battle.  The keyframes are consisted of 76 degrees of freedom:
+        Root: It's the camera of view which has 6 DOFs,
+        The enemy plane: it has 7 DOFs, and its propellers can rotate while flying. It also carries 4 missiles which can be shoot out, each of them has 6 DOFs.
+        The player and other 3 planes: they all have 6 DOFs.
+        The Spark is the animation to mimic the explosion, it has 9 DOFs, where "Spark Frame" controls the explosion process, "Spark Scale" can be used to change the particle size of explosion.
+        The Small Shell: this is the shell fired by player and 3 other planes, it has 6 DOFs.
+
+
+Prior to starting the project we both agreed to a specific approach to separate the work and attempt to complete this assignment as efficiently as possible. The first goal was to ensure we both had a decent grasp of the task. For this reason we decided to make our own aircrafts. Overall our experience collaborating on this assignment was a good one. I think we both agreed we wish we had more time (all of our other courses had assignments due this last week), but feel we did the best we could given the circumstances.
